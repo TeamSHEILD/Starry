@@ -127,6 +127,8 @@ async def about(ctx, amount = 1):
   embed.add_field(name="I am Shadi's favored creation 😋", value="**Bot Name:** 𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱#8656\n**Creator:** Shadi#7879\n**Programming Language:** Python 3.8\n**Date Created:** June 7th, 2020 | 14:30:00 PM\n **Purpose:** it's a fun bot, so it doesn't use moderation, and is still in the making, but hopefully  𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱ adds a passive, customized feel to any server that it is in!\nIt can do very basic stuff, but if you want more features, DM 'Shadi#7879', I'm always open to some nice feedback!")
   await ctx.send(embed=embed)
 
+
+
 @client.event
 async def on_command_error(ctx, error):
   embed = discord.Embed(title="❗ Error ❗", color=0xA90000)
