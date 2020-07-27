@@ -5,6 +5,7 @@ from discord.ext import commands, tasks
 import os
 import B
 import asyncio
+import discord.utils 
 import random
 import datetime
 import time
@@ -31,7 +32,7 @@ async def status_task():
         await asyncio.sleep(6)
         await client.change_presence(status=discord.Status.idle, activity=discord.Activity(type=discord.ActivityType.playing, name=" 𝘐 𝘩𝘰𝘱𝘦 𝘺𝘰𝘶 𝘭𝘪𝘬𝘦 𝘪𝘵! 😊🥰"))
         await asyncio.sleep(3)
-        await client.change_presence(status=discord.Status.do_not_disturb, activity=discord.Activity(type=discord.ActivityType.playing, name=" Shadi#7879"))
+        await client.change_presence(status=discord.Status.do_not_disturb, activity=discord.Activity(type=discord.ActivityType.playing, name=" Serenity#7879"))
         await asyncio.sleep(5)
 
 @client.event
@@ -39,7 +40,7 @@ async def on_ready():
     print('Logged in as:')
     print("Username:",client.user.name+" #8656")
     print("Client ID:",client.user.id)
-    print("Bot Creator: ✨𝘚𝘵𝘢𝘳𝘳𝘺 𝘚𝘩𝘢𝘥𝘪✨#7879")
+    print("Bot Creator: Serenity#7879")
     print(today)
     print('-----------------------------')
     client.loop.create_task(status_task())
@@ -48,6 +49,13 @@ async def on_ready():
 async def simpltime(ctx, amount = 1):
     await ctx.channel.purge(limit = amount)
     embed = discord.Embed(title=day, color=0x10deb0)
+    await ctx.send(embed=embed)
+
+@client.command
+async def test(ctx, *args):
+    retStr = str("""```css\nThis is some colored Text```""")
+    embed = discord.Embed(title="Random test")
+    embed.add_field(name="Name field can't be colored as it seems",value=retStr)
     await ctx.send(embed=embed)
 
 @client.command()
@@ -69,6 +77,7 @@ async def serverpop(ctx, amount = 1):
     embed = discord.Embed(title='🏭 Server Population', color=0xDD3C00)
     embed.add_field(name='How many members are in this server? (bots included)', value=f'There are {ctx.guild.member_count} members (including bots) in this server')
     await ctx.send(embed=embed)
+ 
 
 @client.command()
 async def ping(ctx, amount = 1):
@@ -124,10 +133,8 @@ async def favsong(ctx, amount = 1):
 async def about(ctx, amount = 1):
   await ctx.channel.purge(limit = amount)
   embed = discord.Embed(title="All about 𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱ !!", color=0x7100FF)
-  embed.add_field(name="I am Shadi's favored creation 😋", value="**Bot Name:** 𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱#8656\n**Creator:** Shadi#7879\n**Programming Language:** Python 3.8\n**Date Created:** June 7th, 2020 | 14:30:00 PM\n **Purpose:** it's a fun bot, so it doesn't use moderation, and is still in the making, but hopefully  𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱ adds a passive, customized feel to any server that it is in!\nIt can do very basic stuff, but if you want more features, DM 'Shadi#7879', I'm always open to some nice feedback!")
+  embed.add_field(name="I am Serenity's favored creation 😋", value="**Bot Name:** 𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱#8656\n**Creator:** Serenity#7879\n**Programming Language:** Python 3.8\n**Date Created:** June 7th, 2020 | 14:30:00 PM\n **Purpose:** it's a fun bot, so it doesn't use moderation, and is still in the making, but hopefully  𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱ adds a passive, customized feel to any server that it is in!\nIt can do very basic stuff, but if you want more features, DM 'Serenity#7879', I'm always open to some nice feedback!")
   await ctx.send(embed=embed)
-
-
 
 @client.event
 async def on_command_error(ctx, error):
@@ -224,7 +231,7 @@ async def corny(ctx, amount = 1):
         'What happens to a frog\'s car when it breaks down?\nIt gets toad away.',
         'What did the duck say when it bought lipstick?\n"Put it on my bill."',
         ' What do you call two monkeys that share an Amazon account?\nPrime mates.',
-        'Whew, this is StarryAurora🌟#8018 here, the creator of this bot. You just got saved from seeing a bunch of cringy jokes I stole from some "clean" websites 🤣🤣'
+        'Whew, this is Serenity#7879 here, the creator of this bot. You just got saved from seeing a bunch of cringy jokes I stole from some "clean" websites 🤣🤣'
     ]
   await ctx.channel.purge(limit = amount)
   co1 = random.choice(co)
@@ -261,12 +268,52 @@ async def sushi(ctx, amount = 1):
   await ctx.send(embed=embed)
 
 @client.command()
+async def swapcase(ctx,*, mssg=None, amount = 1):
+  if mssg == None:
+    await ctx.channel.purge(limit = amount)
+    await ctx.send(f'{ctx.author.mention} re-run the command and also type in something that you would like to swapcase')
+  else:
+    await ctx.channel.purge(limit = amount)
+    await ctx.send(f'{mssg.swapcase()}')
+
+@client.command()
+async def lower(ctx,*, mssg=None, amount = 1):
+  if mssg == None:
+    await ctx.channel.purge(limit = amount)
+    await ctx.send(f'{ctx.author.mention} re-run the command and also type in something that you would like to all lowercase')
+  else:
+    await ctx.channel.purge(limit = amount)
+    await ctx.send(f'{mssg.lower()}')
+
+@client.command()
+async def upper(ctx,*, mssg=None, amount = 1):
+  if mssg == None:
+    await ctx.channel.purge(limit = amount)
+    await ctx.send(f'{ctx.author.mention} re-run the command and also type in something that you would like to uppercase')
+  else:
+    await ctx.channel.purge(limit = amount)
+    await ctx.send(f'{mssg.upper()}')
+
+@client.command()
+async def role(ctx, * role: discord.Role):
+  await ctx.author.add_roles(role)
+
+@client.command()
+async def join(ctx,*, mssg=None, amount = 1):
+  if mssg == None:
+    await ctx.channel.purge(limit = amount)
+    await ctx.send(f'{ctx.author.mention} re-run the command and also type in something that you would like to join characters to')
+  else:
+    await ctx.channel.purge(limit = amount)
+    await ctx.send(f'{mssg.join()}')
+
+@client.command()
 async def creator(ctx, amount = 1):
   await ctx.channel.purge(limit = amount)
   embed = discord.Embed(title="🥳 𝑺𝒕𝒂𝒓𝒓𝒚's Creator", color=0xC592FF)
   embed.set_footer(text=f"{ctx.author} took interest", icon_url=ctx.author.avatar_url)
-  embed.add_field(name="Keep in note that the creator changes names sometimes...", value="Currently Right Now: 'Shadi#7879'")
-  embed.add_field(name="Previous name", value="'StarryAurora🌟#8018','Shaaaaddiii✨#8018'")
+  embed.add_field(name="Keep in note that the creator changes names sometimes...", value="Currently Right Now: 'Serenity#7879'")
+  embed.add_field(name="Previous name", value="'StarryAurora🌟#8018','Shaaaaddiii✨#8018','Shadi#7879'")
   await ctx.send(embed=embed)
 
 @client.command()
@@ -484,7 +531,7 @@ async def assist(ctx):
 async def mod(ctx):
     embed = discord.Embed(title="𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱ is here to MODERATE!", description="Experimental Module", color=0xcba1ff)
 
-    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱#8656 | Shadi#7879')
+    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱#8656 | Serenity#7879')
   
     embed.set_image(url='https://media1.tenor.com/images/24b4cf8512e58420d0cdfea3df5a3cce/tenor.gif?itemid=14432583')
 
@@ -495,19 +542,29 @@ async def mod(ctx):
     embed.add_field(name="❌ Ban a Member", value="star+ban")
 
     embed.add_field(name="🔒 Personal User Info", value="star+privid")
+
+    embed.add_field(name="🎈 Add a Role!", value="star+role")
     
     await ctx.send(embed=embed)
+
+@client.command()
+async def textmod(ctx):
+  ctx.send(f'{ctx.author.name} I see that you take an interest in modifying some text??\nSince I know the answer is yes, here are some simple commands!\nstar+swapcase\t|\tI swapcase what you type in!\nstar+lower\t|\tI lowercase everything you type in!\nstar+upper\t|\tI caps-lock everything you type in!')
 
 @client.command()
 async def text(ctx):
     embed = discord.Embed(title="Welcome to the Text command module! 🥳", description="Text can be modified per the commands below!", color=0x6A9EFF)
 
-    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱#8656 | Shadi#7879')
+    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱#8656 | Serenity#7879')
   
     embed.set_image(url='https://media1.tenor.com/images/24b4cf8512e58420d0cdfea3df5a3cce/tenor.gif?itemid=14432583')
 
     embed.add_field(name="💬 Text Commands!", value="Here, you can make Starry say stuff, reverse stuff, humanize stuff, idk lol", inline=False)
     
+    embed.add_field(name='Text Modifiers', value='Starry will simply repeat what you say by modifying the text that you put in!')
+
+    embed.add_field(name='Text Modifiers', value='star+textmod')
+
     embed.add_field(name="🙍‍♂️ Human", value="star+human")
 
     embed.add_field(name="🦜Parrot!", value="star+parrot")
@@ -520,7 +577,7 @@ async def text(ctx):
 async def activity(ctx):
     embed = discord.Embed(title="Perform a simple activity! 🥳", description="Such as random generators, SUSHI.", color=0xFF756A)
 
-    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱#8656 | Shadi#7879')
+    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱#8656 | Serenity#7879')
   
     embed.set_image(url='https://media1.tenor.com/images/24b4cf8512e58420d0cdfea3df5a3cce/tenor.gif?itemid=14432583')
 
@@ -538,7 +595,7 @@ async def activity(ctx):
 async def social(ctx):
     embed = discord.Embed(title="Socialize with Starry! 🥳", description="Tell a joke or greeting!", color=0x6AFFC5)
 
-    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱#8656 | Shadi#7879')
+    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱#8656 | Serenity#7879')
   
     embed.set_image(url='https://media1.tenor.com/images/24b4cf8512e58420d0cdfea3df5a3cce/tenor.gif?itemid=14432583')
 
@@ -558,7 +615,7 @@ async def social(ctx):
 async def media(ctx):
     embed = discord.Embed(title="Here is some Medias! 🥳", description="The Kawaii command, I give credit to the OwO bot!", color=0xFFFB6A)
 
-    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱#8656 | Shadi#7879')
+    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱#8656 | Serenity#7879')
   
     embed.set_image(url='https://media1.tenor.com/images/24b4cf8512e58420d0cdfea3df5a3cce/tenor.gif?itemid=14432583')
 
@@ -582,7 +639,7 @@ async def media(ctx):
 async def utility(ctx):
     embed = discord.Embed(title="Some simple utility tools! 🥳", description="Very simple commands, not moderation", color=0x949494)
 
-    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱#8656 | Shadi#7879')
+    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱#8656 | Serenity#7879')
   
     embed.set_image(url='https://media1.tenor.com/images/24b4cf8512e58420d0cdfea3df5a3cce/tenor.gif?itemid=14432583')
 
@@ -618,7 +675,7 @@ async def utility(ctx):
 async def abocred(ctx):
     embed = discord.Embed(title="Check my about, credits, updates, and invite me! 🥳", color=0xFF9974)
 
-    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱#8656 | Shadi#7879')
+    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱#8656 | Serenity#7879')
   
     embed.set_image(url='https://media1.tenor.com/images/24b4cf8512e58420d0cdfea3df5a3cce/tenor.gif?itemid=14432583')
 
@@ -638,3 +695,5 @@ async def abocred(ctx):
 
 B.b()
 client.run(os.getenv('TOKEN'))
+
+

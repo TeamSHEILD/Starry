@@ -22,13 +22,13 @@ turtle = ['https://cdn.discordapp.com/attachments/719243584406159503/73226185652
 
 homemadefrap = ['https://cdn.discordapp.com/attachments/734052778195943434/734052828498231336/20200716_182249_1.png']
 
-memes = ['https://drive.google.com/file/d/1HIeePfQzhn--jUR2DIcdyfxGp2kBJvJa/view?usp=sharing',
-         'https://drive.google.com/file/d/1luAoREvcu5RD46FpbPbLEg6Yb8TJ3zSI/view?usp=sharing',
-         'https://drive.google.com/file/d/1KseJ9t_eOD0vK8clZFftL4tCgpdbNgR1/view?usp=sharing',
-         'https://drive.google.com/file/d/1tNpWZaSrGteBT8l7IA9ZXDLxuvHqUhv2/view?usp=sharing',
-         'https://drive.google.com/file/d/1t3xYdyMYdjn0PWp6zz5KH9RAdHMztiGf/view?usp=sharing',
-         'https://drive.google.com/file/d/1QCL4DVtP-8Zwh_X8vbAqI8M5UCTgGr0f/view?usp=sharing',
-         'https://drive.google.com/file/d/1SWwEKkWpl70oiEJqiiqyDZ-MsPgdeZq-/view?usp=sharing',
+memes = ['https://cdn.discordapp.com/attachments/719239789697826898/734424113107566642/video0_3.mov',
+         'https://cdn.discordapp.com/attachments/719239789697826898/734423677248208946/video0.mov',
+         'https://cdn.discordapp.com/attachments/719239789697826898/734424067863478312/video0_2.mov',
+         'https://cdn.discordapp.com/attachments/719239789697826898/734424186805551205/made_in_heaven.mp4',
+         'https://cdn.discordapp.com/attachments/719239789697826898/734465902652686346/video0.mp4',
+         'https://cdn.discordapp.com/attachments/719239789697826898/734466116210130944/video0_1.mp4',
+         'https://cdn.discordapp.com/attachments/719239789697826898/734470739838763058/video0-61.mp4',
          'https://cdn.discordapp.com/attachments/717091288251629598/717827811687137341/me.mp4',
          'https://cdn.discordapp.com/attachments/719239789697826898/721073269129740359/101890153_248962729760113_3464118493226686893_n.mp4',
          'https://cdn.discordapp.com/attachments/719239789697826898/721073207209230336/95563224_2683927415176024_8788060489491534796_n.mp4',
