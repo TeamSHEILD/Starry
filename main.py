@@ -78,6 +78,21 @@ async def serverpop(ctx, amount = 1):
     embed.add_field(name='How many members are in this server? (bots included)', value=f'There are {ctx.guild.member_count} members (including bots) in this server')
     await ctx.send(embed=embed)
  
+@client.command()
+async def feedback(ctx,*, mssg=None, amount = 1):
+  if mssg == None:
+    await ctx.channel.purge(limit = amount)
+    embed = discord.Embed(title="Send feedback", color=0xE44865)
+    embed.add_field(name="Slight Problem...", value='hmm whattya want to feedback on?')
+    await ctx.send(embed=embed)
+  else:
+    await ctx.channel.purge(limit = amount)
+    await ctx.send(f'{ctx.author}, your feedback on me has been sent!')
+    channel = client.get_channel(738792718964359340)
+    embed = discord.Embed(title="We have feedback!", color=0x422AE6)
+    embed.add_field(name=f'''{ctx.author} from {ctx.guild.name} says
+    ''', value=f'{mssg}')
+    await channel.send(embed=embed) 
 
 @client.command()
 async def ping(ctx, amount = 1):
@@ -254,7 +269,7 @@ async def facts(ctx, amount = 1):
 @client.command()
 async def invite(ctx, amount = 1):
   await ctx.channel.purge(limit = amount)
-  embed = discord.Embed(title="Invite 𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱ ! 🥳", description="Heyyyy thank you sooo much, for requesting to invite me to your server 🥰! It will be a great pleasure of mine to bring that small sprinkle of comedy to your channel, and you won\'t regret this!😋\n𝑺𝒕𝒂𝒓𝒓𝒚 ⎰:sparkles:⎱#8656 with administrator permissions: https://discord.com/api/oauth2/authorize?client_id=719944711972061274&permissions=8&scope=bot\n𝑺𝒕𝒂𝒓𝒓𝒚 ⎰:sparkles:⎱#8656 with only text and general permissions (no administrator): https://discord.com/api/oauth2/authorize?client_id=719944711972061274&permissions=2081422583&scope=bot", color=0x8F40FF)
+  embed = discord.Embed(title="Invite 𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱ ! 🥳", description="Heyyyy thank you sooo much, for requesting to invite me to your server 🥰! It will be a great pleasure of mine to bring that small sprinkle of comedy to your channel, and you won\'t regret this!😋\n𝑺𝒕𝒂𝒓𝒓𝒚 ⎰:sparkles:⎱#8656 with administrator permissions: https://discord.com/api/oauth2/authorize?client_id=734102611967475802&permissions=8&scope=bot\n𝑺𝒕𝒂𝒓𝒓𝒚 ⎰:sparkles:⎱#8656 with only text and general permissions (no administrator): https://discord.com/api/oauth2/authorize?client_id=734102611967475802&permissions=2084568823&scope=bot", color=0x8F40FF)
   embed.set_footer(text=f"Thank you {ctx.author}", icon_url=ctx.author.avatar_url)
   await ctx.send(embed=embed)
 
@@ -297,6 +312,12 @@ async def upper(ctx,*, mssg=None, amount = 1):
 @client.command()
 async def role(ctx, * role: discord.Role):
   await ctx.author.add_roles(role)
+
+@client.command()
+@commands.has_permissions(administrator=True)
+async def saymembers(ctx):
+  for members in ctx.guild.members:
+    await ctx.send(members)
 
 @client.command()
 async def join(ctx,*, mssg=None, amount = 1):
