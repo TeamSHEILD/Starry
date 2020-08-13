@@ -1,0 +1,32 @@
+async def status_task():
+    while True:
+        await client.change_presence(status=discord.Status.do_not_disturb, activity=discord.Activity(type=discord.ActivityType.watching, name=" star+assist"))
+        await asyncio.sleep(6)
+        await client.change_presence(status=discord.Status.idle, activity=discord.Activity(type=discord.ActivityType.playing, name=" 𝘐 𝘩𝘰𝘱𝘦 𝘺𝘰𝘶 𝘭𝘪𝘬𝘦 𝘪𝘵! 😊🥰"))
+        await asyncio.sleep(3)
+        await client.change_presence(status=discord.Status.do_not_disturb, activity=discord.Activity(type=discord.ActivityType.playing, name=" Serenity#7879"))
+        await asyncio.sleep(5)
+
+
+#jdjg's id only(don't add any more)
+
+async def status_task():
+    while True:
+        await client.change_presence(status=discord.Status.idle, activity=discord.Activity(type=discord.ActivityType.playing, name="use JDBot*help for the commands"))
+        await asyncio.sleep(5)
+        await client.change_presence(status=discord.Status.idle, activity=discord.Activity(type=discord.ActivityType.playing, name="with Repl.it"))
+        await asyncio.sleep(4)
+        await client.change_presence(status=discord.Status.idle, activity=discord.Activity(type=discord.ActivityType.watching, name="the creators:"))
+        await asyncio.sleep(6)
+        await client.change_presence(status=discord.Status.idle, activity=discord.Activity(type=discord.ActivityType.playing, name="Nomic Zorua"))
+        await asyncio.sleep(4)
+        await client.change_presence(status=discord.Status.idle, activity=discord.Activity(type=discord.ActivityType.playing, name="JDJG and Shadi"))
+        await asyncio.sleep(5)
+        await client.change_presence(status=discord.Status.idle, activity=discord.Activity(type=discord.ActivityType.playing, name="RenDev and LinuxTerm"))
+        await asyncio.sleep(5)
+        await client.change_presence(status=discord.Status.idle, activity=discord.Activity(type=discord.ActivityType.playing, name="JDJG Bot will DM you two servers join if you want help from the bot makers - from about command or help command"))
+        await asyncio.sleep(5)
+        await client.change_presence(status=discord.Status.idle, activity=discord.Activity(type=discord.ActivityType.playing, name="(the first one is the support server), though the blooper server will tend to do it now - second one"))
+        await asyncio.sleep(5)
+        await client.change_presence(status=discord.Status.idle, activity=discord.Activity(type=discord.ActivityType.playing, name="use JDBot!help for the test commands"))
+        await asyncio.sleep(5)

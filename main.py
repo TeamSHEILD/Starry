@@ -26,14 +26,6 @@ client = commands.Bot(command_prefix = 'star+')
 client.remove_command('assist')
 time_location = "America/New_York"
 
-async def status_task():
-    while True:
-        await client.change_presence(status=discord.Status.do_not_disturb, activity=discord.Activity(type=discord.ActivityType.watching, name=" star+assist"))
-        await asyncio.sleep(6)
-        await client.change_presence(status=discord.Status.idle, activity=discord.Activity(type=discord.ActivityType.playing, name=" 𝘐 𝘩𝘰𝘱𝘦 𝘺𝘰𝘶 𝘭𝘪𝘬𝘦 𝘪𝘵! 😊🥰"))
-        await asyncio.sleep(3)
-        await client.change_presence(status=discord.Status.do_not_disturb, activity=discord.Activity(type=discord.ActivityType.playing, name=" Serenity#7879"))
-        await asyncio.sleep(5)
 
 @client.event
 async def on_ready():
@@ -43,7 +35,7 @@ async def on_ready():
     print("Bot Creator: Serenity#7879")
     print(today)
     print('-----------------------------')
-    client.loop.create_task(status_task())
+
 
 @client.command()
 async def simpltime(ctx, amount = 1):
