@@ -74,13 +74,13 @@ async def serverpop(ctx, amount = 1):
     await ctx.send(embed=embed)
  
 @client.command(pass_context=True)
-async def join(ctx):
+async def joinvc(ctx):
     author = ctx.message.author
     channel = ctx.message.author.voice_channel
     await ctx.join_voice_channel(channel)
 
 @client.command(pass_content=True)
-async def leave(ctx):
+async def leavevc(ctx):
     guild = ctx.message.guild
     voice_client = guild.voice_client
     await voice_client.disconnect()
