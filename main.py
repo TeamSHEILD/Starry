@@ -3,6 +3,7 @@
 import discord
 from discord.ext import commands, tasks
 import os
+import lavalink
 import B
 import asyncio
 import discord.utils 
@@ -10,6 +11,7 @@ import random
 import datetime
 import time
 import piclinks
+
 from datetime import *
 import math
 from pytz import timezone
@@ -23,6 +25,7 @@ key=os.getenv('key')
 wkey=os.getenv('wkey')
 client = discord.Client()
 client = commands.Bot(command_prefix = 'star+')
+bot = commands.Bot(command_prefix = 'star+')
 client.remove_command('assist')
 time_location = "America/New_York"
 
@@ -70,6 +73,18 @@ async def serverpop(ctx, amount = 1):
     embed.add_field(name='How many members are in this server? (bots included)', value=f'There are {ctx.guild.member_count} members (including bots) in this server')
     await ctx.send(embed=embed)
  
+@client.command(pass_context=True)
+async def join(ctx):
+    author = ctx.message.author
+    channel = ctx.message.author.voice_channel
+    await ctx.join_voice_channel(channel)
+
+@client.command(pass_content=True)
+async def leave(ctx):
+    guild = ctx.message.guild
+    voice_client = guild.voice_client
+    await voice_client.disconnect()
+
 @client.command()
 async def feedback(ctx,*, mssg=None, amount = 1):
   if mssg == None:
