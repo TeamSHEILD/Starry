@@ -8,10 +8,30 @@ import B
 import asyncio
 import discord.utils 
 import random
+import youtube_dl
 import datetime
 import time
 import piclinks
-
+import json
+import sqlite3
+import pymongo
+import pymongo
+import discord_webhook
+from difflib import SequenceMatcher
+from discord import Webhook, AsyncWebhookAdapter
+import tweepy
+import youtube_dl
+import itertools
+import functools
+import math
+from async_timeout import timeout
+from clear_code import clear
+import DatabaseControl
+import RankSystem
+import GlobalLinker
+import UpdateNotify
+import JDJG_os
+from pymongo import MongoClient
 from datetime import *
 import math
 from pytz import timezone
@@ -24,11 +44,13 @@ flip = coin[random.randint(0, 8)]
 key=os.getenv('key')
 wkey=os.getenv('wkey')
 client = discord.Client()
-client = commands.Bot(command_prefix = 'star+')
-bot = commands.Bot(command_prefix = 'star+')
-client.remove_command('assist')
+client = commands.Bot(command_prefix=commands.when_mentioned_or("star+"))
+client.remove_command('help')
 time_location = "America/New_York"
 
+for filename in os.listdir('./cogs'):
+    if filename.endswith('.py'):
+        client.load_extension(f'cogs.{filename[:-3]}')
 
 @client.event
 async def on_ready():
@@ -38,11 +60,11 @@ async def on_ready():
     print("Bot Creator: Serenity#7879")
     print(today)
     print('-----------------------------')
+    await client.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name=" star+assist"))
 
 
 @client.command()
-async def simpltime(ctx, amount = 1):
-    await ctx.channel.purge(limit = amount)
+async def simpltime(ctx):    
     embed = discord.Embed(title=day, color=0x10deb0)
     await ctx.send(embed=embed)
 
@@ -54,46 +76,48 @@ async def test(ctx, *args):
     await ctx.send(embed=embed)
 
 @client.command()
-async def parrot(ctx,*, mssg=None, amount = 1):
-  if mssg == None:
-    await ctx.channel.purge(limit = amount)
+async def parrot(ctx,*, mssg=None):
+  if mssg == None:    
     embed = discord.Embed(title="🦜 Parrot Starry", color=0xE64885)
     embed.add_field(name="Slight Problem...", value='hmm whattya want me to copy?')
     await ctx.send(embed=embed)
-  else:
-    await ctx.channel.purge(limit = amount)
+  else:    
     embed = discord.Embed(title="🦜 Parrot Starry", color=0x489AE6)
     embed.add_field(name="now gimme cracker pls 🍘", value=f'{mssg}')
     await ctx.send(embed=embed)
 
 @client.command()
-async def serverpop(ctx, amount = 1):
-    await ctx.channel.purge(limit = amount)
+async def serverpop(ctx):    
     embed = discord.Embed(title='🏭 Server Population', color=0xDD3C00)
     embed.add_field(name='How many members are in this server? (bots included)', value=f'There are {ctx.guild.member_count} members (including bots) in this server')
     await ctx.send(embed=embed)
  
-@client.command(pass_context=True)
-async def joinvc(ctx):
-    author = ctx.message.author
-    channel = ctx.message.author.voice_channel
-    await ctx.join_voice_channel(channel)
-
-@client.command(pass_content=True)
-async def leavevc(ctx):
-    guild = ctx.message.guild
-    voice_client = guild.voice_client
-    await voice_client.disconnect()
+@client.command()
+async def joinvc(ctx,channel):
+  channel = ctx.message.author.voice.voice_channel
+  await client.join_voice_channel(channel)
 
 @client.command()
-async def feedback(ctx,*, mssg=None, amount = 1):
-  if mssg == None:
-    await ctx.channel.purge(limit = amount)
+async def leavevc(ctx):
+  guild = ctx.message.guild
+  voice_client = guild.voice_client(server)
+  await voice_client.disconnect()
+
+@client.command()
+async def playvc(ctx, url):
+   guild = ctx.message.guild
+   voice_client = guild.voice_client(server)
+   player = await voice_client.create_ytdl_player(url)
+   playerrs[server.id] = player
+   player.start()
+
+@client.command()
+async def feedback(ctx,*, mssg=None):
+  if mssg == None:    
     embed = discord.Embed(title="Send feedback", color=0xE44865)
     embed.add_field(name="Slight Problem...", value='hmm whattya want to feedback on?')
     await ctx.send(embed=embed)
-  else:
-    await ctx.channel.purge(limit = amount)
+  else:    
     await ctx.send(f'{ctx.author}, your feedback on me has been sent!')
     channel = client.get_channel(738792718964359340)
     embed = discord.Embed(title="We have feedback!", color=0x422AE6)
@@ -102,34 +126,29 @@ async def feedback(ctx,*, mssg=None, amount = 1):
     await channel.send(embed=embed) 
 
 @client.command()
-async def ping(ctx, amount = 1):
-    await ctx.channel.purge(limit = amount)
+async def ping(ctx):    
     embed = discord.Embed(title="📡 Ping Latency", color=0x105900)
     embed.add_field(name="📡", value=f'This is my ping -> ({round(client.latency * 10000)})ms')
     await ctx.send(embed=embed)
 
 @client.command()
-async def reverse(ctx,*, mssg=None, amount = 1):
-  if mssg == None:
-    await ctx.channel.purge(limit = amount)
+async def reverse(ctx,*, mssg=None):
+  if mssg == None:    
     embed = discord.Embed(title="🔄 Reverse that!", color=0xE64885)
     embed.add_field(name="hmmm", value='gimme something to reverse!')
     await ctx.send(embed=embed)
-  else:
-    await ctx.channel.purge(limit = amount)
+  else:    
     embed = discord.Embed(title="🔄 Reverse that!", color=0x3258BF)
     embed.add_field(name="Pop poP", value=f'{mssg}'[::-1])
     await ctx.send(embed=embed)
 
 @client.command()
-async def afk(ctx,*, mssg=None, amount = 1):
+async def afk(ctx,*, mssg=None):
   if mssg == None:
-    await ctx.channel.purge(limit = amount)
     embed = discord.Embed(title="📴AFK Status", color=0xFF7034)
     embed.add_field(name="What is your AFK Status?", value='Set one up!')
     await ctx.send(embed=embed)
   else:
-    await ctx.channel.purge(limit = amount)
     embed = discord.Embed(title="📴AFK Status", color=0xFFA234)
     embed.add_field(name="Your AFK Status has been set to:", value=f"'{mssg}'")
     await ctx.send(embed=embed)
@@ -137,7 +156,6 @@ async def afk(ctx,*, mssg=None, amount = 1):
 @client.command()
 async def human(ctx,*, mssg=None, amount = 1):
   if mssg == None:
-    await ctx.channel.purge(limit = amount)
     embed = discord.Embed(title="🙍‍♂️ Human Bot", color=0xC8FFED)
     embed.add_field(name="hey wait a minute!", value="I can't ghost your message if you don't give me one!")
     await ctx.send(embed=embed)
@@ -146,16 +164,9 @@ async def human(ctx,*, mssg=None, amount = 1):
     await ctx.send(f'{mssg}')
 
 @client.command()
-async def favsong(ctx, amount = 1):
-  await ctx.channel.purge(limit = amount)
-  fs1 = random.choice(piclinks.fs)
-  await ctx.send(fs1)
-
-@client.command()
-async def about(ctx, amount = 1):
-  await ctx.channel.purge(limit = amount)
-  embed = discord.Embed(title="All about 𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱ !!", color=0x7100FF)
-  embed.add_field(name="I am Serenity's favored creation 😋", value="**Bot Name:** 𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱#8656\n**Creator:** Serenity#7879\n**Programming Language:** Python 3.8\n**Date Created:** June 7th, 2020 | 14:30:00 PM\n **Purpose:** it's a fun bot, so it doesn't use moderation, and is still in the making, but hopefully  𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱ adds a passive, customized feel to any server that it is in!\nIt can do very basic stuff, but if you want more features, DM 'Serenity#7879', I'm always open to some nice feedback!")
+async def about(ctx):
+  embed = discord.Embed(title="All about 𝑺𝒕𝒂𝒓𝒓𝒚!!", color=0x7100FF)
+  embed.add_field(name="I am Serenity's favored creation 😋", value="**Bot Name:** 𝑺𝒕𝒂𝒓𝒓𝒚\n**Creator:** Serenity#7879\n**Programming Language:** Python 3.8\n**Date Created:** June 7th, 2020 | 14:30:00 PM\n **Purpose:** it's a fun bot, so it doesn't use moderation, and is still in the making, but hopefully  𝑺𝒕𝒂𝒓𝒓𝒚 adds a passive, customized feel to any server that it is in!\nIt can do very basic stuff, but if you want more features, DM 'Serenity#7879', I'm always open to some nice feedback!")
   await ctx.send(embed=embed)
 
 @client.event
@@ -165,64 +176,55 @@ async def on_command_error(ctx, error):
   await ctx.send(embed=embed)
 
 @client.command()
-async def greeting(ctx, amount = 1):
-  await ctx.channel.purge(limit = amount)
+async def greeting(ctx):
   gr1 = random.choice(piclinks.gr)
   embed = discord.Embed(title="Hello Starry! ✨", color=0xBD9EFF)
   embed.add_field(name="How are you today?", value=gr1)
   await ctx.send(embed=embed)
 
 @client.command()
-async def time(ctx, amount = 1):
-    await ctx.channel.purge(limit = amount)
+async def time(ctx):
     embed = discord.Embed(title="⌚ Time in Coordinated Universal Time", color=0x575353)
     embed.add_field(name="Time (UTC):", value=today)
     await ctx.send(embed=embed)
 
 @client.command()
-async def rate(ctx, amount = 1):
-  await ctx.channel.purge(limit = amount)
+async def rate(ctx):
   ra1 = random.choice(piclinks.ra)
   await ctx.send(ra1)
 
 @client.command()
-async def grade(ctx, amount = 1):
+async def grade(ctx):
   gr = random.randint(1,100)
   if gr < 50:
-    await ctx.channel.purge(limit = amount)
     embed = discord.Embed(title="📝 You take a test and...", color=0xFF4242)
     embed.set_footer(text=f"Bruh {ctx.author}", icon_url=ctx.author.avatar_url)
     embed.add_field(name="YOU FAILED!!", value=gr)
     await ctx.send(embed=embed)
   elif gr < 70 and gr > 51:
-    await ctx.channel.purge(limit = amount)
     embed = discord.Embed(title="📝 You take a test and...", color=0xFF7542)
     embed.set_footer(text=f"Oh jeez {ctx.author}", icon_url=ctx.author.avatar_url)
     embed.add_field(name="Lol your baaaaddd 🤣", value=gr)
     await ctx.send(embed=embed)
   elif gr < 90 and gr > 71:
-    await ctx.channel.purge(limit = amount)
     embed = discord.Embed(title="📝 You take a test and...", color=0xFFBD42)
     embed.set_footer(text=f"... {ctx.author}", icon_url=ctx.author.avatar_url)
     embed.add_field(name="you did quite average", value=gr)
     await ctx.send(embed=embed)
   elif gr < 99 and gr > 91:
-    await ctx.channel.purge(limit = amount)
     embed = discord.Embed(title="📝 You take a test and...", color=0x82FF42)
     embed.set_footer(text=f"Sweet {ctx.author}", icon_url=ctx.author.avatar_url)
     embed.add_field(name="ayyeee you did sweet!", value=gr)
     await ctx.send(embed=embed)
   elif gr == 100:
-    await ctx.channel.purge(limit = amount)
     embed = discord.Embed(title="📝 You take a test and...", color=0x9B42FF)
     embed.set_footer(text=f"WOW {ctx.author}", icon_url=ctx.author.avatar_url)
     embed.add_field(name="YOU GOT A HUNDRED!!! 🥳", value=gr)
     await ctx.send(embed=embed)
 
 @client.command()
-async def flip(ctx, amount = 1):
+async def flip(ctx):
   flip = coin[random.randint(0, 8)]
-  await ctx.channel.purge(limit = amount)
   await ctx.send("I hope you betted beforehand! 😋")
   await asyncio.sleep(2)
   await ctx.send("Flipping...")
@@ -232,7 +234,7 @@ async def flip(ctx, amount = 1):
   await ctx.send(flip)
 
 @client.command()
-async def corny(ctx, amount = 1):
+async def corny(ctx):
   co = [
         'What is the best day to go to the beach? Sunday, of course!',
         'What bow can\'t be tied? A rainbow!',
@@ -255,65 +257,57 @@ async def corny(ctx, amount = 1):
         ' What do you call two monkeys that share an Amazon account?\nPrime mates.',
         'Whew, this is Serenity#7879 here, the creator of this bot. You just got saved from seeing a bunch of cringy jokes I stole from some "clean" websites 🤣🤣'
     ]
-  await ctx.channel.purge(limit = amount)
+
   co1 = random.choice(co)
   embed = discord.Embed(title="🌽 Corny Jokes", color=0xC9FF92)
   embed.add_field(name="Ahhhh so corny!", value=co1)
   await ctx.send(embed=embed)
 
 @client.command()
-async def facts(ctx, amount = 1):
+async def facts(ctx):
   fa = [
         'Did you know that when ants die, they let off a unique stench only other ants can smell, and they will be attracted to the dead ant, and carry him away?',
         'Did you know that Concorde, that supersonic plane, can burn as much fuel as the average car burns in a month, just by taxi\'ing towards the runway?'
     ]
-  await ctx.channel.purge(limit = amount)
+
   fa1 = random.choice(fa)
   embed = discord.Embed(title="📔Random Facts", color=0xFFB694)
   embed.add_field(name="Here's a random fact 😋", value=fa1)
   await ctx.send(embed=embed)
 
 @client.command()
-async def invite(ctx, amount = 1):
-  await ctx.channel.purge(limit = amount)
-  embed = discord.Embed(title="Invite 𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱ ! 🥳", description="Heyyyy thank you sooo much, for requesting to invite me to your server 🥰! It will be a great pleasure of mine to bring that small sprinkle of comedy to your channel, and you won\'t regret this!😋\n𝑺𝒕𝒂𝒓𝒓𝒚 ⎰:sparkles:⎱#8656 with administrator permissions: https://discord.com/api/oauth2/authorize?client_id=734102611967475802&permissions=8&scope=bot\n𝑺𝒕𝒂𝒓𝒓𝒚 ⎰:sparkles:⎱#8656 with only text and general permissions (no administrator): https://discord.com/api/oauth2/authorize?client_id=734102611967475802&permissions=2084568823&scope=bot", color=0x8F40FF)
+async def invite(ctx):
+  embed = discord.Embed(title="Invite 𝑺𝒕𝒂𝒓𝒓𝒚! 🥳", description="Heyyyy thank you sooo much, for requesting to invite me to your server 🥰! It will be a great pleasure of mine to bring that small sprinkle of comedy to your channel, and you won\'t regret this!😋\n𝑺𝒕𝒂𝒓𝒓𝒚 ⎰:sparkles:⎱ with administrator permissions: https://discord.com/api/oauth2/authorize?client_id=742030317451214888&permissions=8&scope=bot\n𝑺𝒕𝒂𝒓𝒓𝒚 ⎰:sparkles:⎱ with only text and general permissions (no administrator): https://discord.com/api/oauth2/authorize?client_id=742030317451214888&permissions=2084568823&scope=bot", color=0x8F40FF)
   embed.set_footer(text=f"Thank you {ctx.author}", icon_url=ctx.author.avatar_url)
   await ctx.send(embed=embed)
 
 @commands.cooldown(1, 3600, commands.BucketType.user)
 @client.command()
-async def sushi(ctx, amount = 1):
-  await ctx.channel.purge(limit = amount)
+async def sushi(ctx):
   sushi = random.randint(100, 300)
   embed = discord.Embed(title="Work for that sushi! 😋", color=0xCF2A40)
   embed.add_field(name="**🍣 Sushi you earned 🍣**", value=sushi)
   await ctx.send(embed=embed)
 
 @client.command()
-async def swapcase(ctx,*, mssg=None, amount = 1):
+async def swapcase(ctx,*, mssg=None):
   if mssg == None:
-    await ctx.channel.purge(limit = amount)
     await ctx.send(f'{ctx.author.mention} re-run the command and also type in something that you would like to swapcase')
   else:
-    await ctx.channel.purge(limit = amount)
     await ctx.send(f'{mssg.swapcase()}')
 
 @client.command()
-async def lower(ctx,*, mssg=None, amount = 1):
+async def lower(ctx,*, mssg=None):
   if mssg == None:
-    await ctx.channel.purge(limit = amount)
     await ctx.send(f'{ctx.author.mention} re-run the command and also type in something that you would like to all lowercase')
   else:
-    await ctx.channel.purge(limit = amount)
     await ctx.send(f'{mssg.lower()}')
 
 @client.command()
-async def upper(ctx,*, mssg=None, amount = 1):
+async def upper(ctx,*, mssg=None):
   if mssg == None:
-    await ctx.channel.purge(limit = amount)
     await ctx.send(f'{ctx.author.mention} re-run the command and also type in something that you would like to uppercase')
   else:
-    await ctx.channel.purge(limit = amount)
     await ctx.send(f'{mssg.upper()}')
 
 @client.command()
@@ -327,17 +321,14 @@ async def saymembers(ctx):
     await ctx.send(members)
 
 @client.command()
-async def join(ctx,*, mssg=None, amount = 1):
+async def join(ctx,*, mssg=None):
   if mssg == None:
-    await ctx.channel.purge(limit = amount)
     await ctx.send(f'{ctx.author.mention} re-run the command and also type in something that you would like to join characters to')
   else:
-    await ctx.channel.purge(limit = amount)
     await ctx.send(f'{mssg.join()}')
 
 @client.command()
-async def creator(ctx, amount = 1):
-  await ctx.channel.purge(limit = amount)
+async def creator(ctx):
   embed = discord.Embed(title="🥳 𝑺𝒕𝒂𝒓𝒓𝒚's Creator", color=0xC592FF)
   embed.set_footer(text=f"{ctx.author} took interest", icon_url=ctx.author.avatar_url)
   embed.add_field(name="Keep in note that the creator changes names sometimes...", value="Currently Right Now: 'Serenity#7879'")
@@ -346,20 +337,19 @@ async def creator(ctx, amount = 1):
 
 @client.command()
 @commands.has_permissions(administrator=True)
-async def kick(ctx, user : discord.Member,*,reason, amount = 1):
+async def kick(ctx, user : discord.Member,*,reason):
     await ctx.channel.purge(limit = amount)
     await user.kick(reason=reason)
     await ctx.send(f'{user} kicked for {reason}')
 
 @client.command()
 @commands.has_permissions(administrator=True)
-async def ban(ctx, user : discord.Member,*,reason, amount = 1):
+async def ban(ctx, user : discord.Member,*,reason):
     await user.kick(reason=reason)
     await ctx.send(f'{user} banned for {reason}')
 
 @client.command()
-async def identity(ctx, member : discord.Member, amount = 1):
-  await ctx.channel.purge(limit = amount)
+async def identity(ctx, member : discord.Member):
   roles = [role for role in member.roles]
   pfp = member.avatar_url
   embed = discord.Embed(title=f'This is {member.name}',colour=member.color, timestamp=ctx.message.created_at)
@@ -376,8 +366,7 @@ async def identity(ctx, member : discord.Member, amount = 1):
 @commands.cooldown(1, 3600, commands.BucketType.user)
 @client.command()
 @commands.has_permissions(administrator=True)
-async def privid(ctx, member : discord.Member, amount = 1):
-  await ctx.channel.purge(limit = amount)
+async def privid(ctx, member : discord.Member):
   roles = [role for role in member.roles]
   pfp = member.avatar_url
   embed = discord.Embed(title=f'This is {member.name}',colour=member.color, timestamp=ctx.message.created_at)
@@ -390,8 +379,7 @@ async def privid(ctx, member : discord.Member, amount = 1):
 
 @client.command()
 @commands.has_permissions(administrator=True)
-async def allinfo(ctx, member : discord.Member, amount = 1):
-  await ctx.channel.purge(limit = amount)
+async def allinfo(ctx, member : discord.Member):
   roles = [role for role in member.roles]
   pfp = member.avatar_url
   embed = discord.Embed(title=f'This is {member.name}',colour=member.color, timestamp=ctx.message.created_at)
@@ -409,8 +397,7 @@ async def allinfo(ctx, member : discord.Member, amount = 1):
   await ctx.send(embed=embed)
 
 @client.command()
-async def where(ctx, amount = 1):
-  await ctx.channel.purge(limit = amount)
+async def where(ctx):
   embed = discord.Embed(title="🗺️Ummm... Where am I??", color=0x00D18D)
   embed.add_field(name='Feeling lost, eh?', value=f'{ctx.author.name}, if you feel lost, dont be!\n\nYou are currently in {ctx.guild.name}!\n\nYou are in the channel called {ctx.channel.mention}!')
   await ctx.send(embed=embed)
@@ -430,8 +417,7 @@ animecolor = [0xff79bf,
               0xd358ff
               ]
 @client.command()
-async def kawaii(ctx, amount = 1):
-  await ctx.channel.purge(limit = amount)
+async def kawaii(ctx):
   cute = random.choice(piclinks.kawaii)
   animee = random.choice(anime)
   colora = random.choice(animecolor)
@@ -449,8 +435,7 @@ turt2 = [0x00fc2b,
          0x50ffbb
          ]
 @client.command()
-async def turtle(ctx, amount = 1):
-  await ctx.channel.purge(limit = amount)
+async def turtle(ctx):
   t1 = random.choice(piclinks.turtle)
   t3 = random.choice(turt2)
 
@@ -467,8 +452,7 @@ f2 = [0x97816e,
          0x7e5350
          ]
 @client.command()
-async def frap(ctx, amount = 1):
-  await ctx.channel.purge(limit = amount)
+async def frap(ctx):
   frap1 = random.choice(piclinks.homemadefrap)
   frap2 = random.choice(f2)
 
@@ -497,8 +481,7 @@ aa = [0xffc2c2,
          0x81ffc7
          ]
 @client.command()
-async def aesthetic(ctx, amount = 1):
-  await ctx.channel.purge(limit = amount)
+async def aesthetic(ctx):
   aa2 = random.choice(piclinks.aesthetics)
   aa1 = random.choice(aa)
 
@@ -515,8 +498,7 @@ m2 = [0xff9696,
          0xde7e51
          ]
 @client.command()
-async def memes(ctx, amount = 1):
-  await ctx.channel.purge(limit = amount)
+async def memes(ctx):
   memes1 = random.choice(piclinks.memes)
   memes2 = random.choice(m2)
 
@@ -525,10 +507,86 @@ async def memes(ctx, amount = 1):
   await ctx.send(embed=embed)
 #---------------------------------------
 @client.command()
-async def mail(ctx, member : discord.Member, *, mssg, amount = 1):
-    await ctx.channel.purge(limit = amount)
+async def mail(ctx, member : discord.Member, *, mssg,):
     await member.create_dm()
     await member.dm_channel.send(f'''**{ctx.author}**:\t**{mssg}**''')
+#-------CHANNEL LINKER COMMANDO----------------
+#if not message.author.bot: #Channel Link Message Repeater
+ #   if not message.content.startswith(discordprefix):
+  #    ret_str = str(user) +": "+GlobalLinker.FilterMessage(message)
+   #   await RankSystem.UpdateScore(message) #For the rank system
+    #  for gChan in DatabaseConfig.db.g_link_testing.find():
+     #   if message.channel.id == gChan['chan_id']:
+      #    for gChan in DatabaseConfig.db.g_link_testing.find():
+       #     if message.guild.id != gChan['ser_id']:
+        #      embedVar = discord.Embed(title=message.guild.name)
+         #     embedVar.add_field(name=str(message.author),value=str(GlobalLinker.FilterMessage(message)),inline=True)
+           #   await client.get_channel(gChan['chan_id']).send(embed=embedVar)
+#      for chanId in DatabaseControl.GetLinkedChannelsList(message.channel.id):
+ #       await client.get_channel(chanId).send(ret_str)
+  #      if len(message.attachments) !=0: #attachment Code
+   #       picture = str(message.attachments[0].url)
+    #      await client.get_channel(chanId).send(picture)
+#if message.content.startswith(discordprefix+"GetChannelId") and not message.author.bot:
+ #   await message.channel.send(message.channel.id)
+  #  return
+#if message.content.startswith(discordprefix+"link_this") and not message.author.bot:
+ #   n1 = str(message.content.split(" ")[1])
+  #  n1 = DatabaseControl.to_ChannelId(n1)
+   # DatabaseControl.AddChannelLink(message.channel.id,n1)
+    #await message.channel.send("This channel was linked to "+ str(client.get_channel(n1)))
+    #return   
+#if message.content.startswith(discordprefix+"link_channel") and not message.author.bot:
+ #   n1 = str(message.content.split(" ")[1])
+  #  n1 = DatabaseControl.to_ChannelId(n1)
+   # n2 = str(message.content.split(" ")[2])
+    #n2 = DatabaseControl.to_ChannelId(n2)
+    #await message.channel.send(DatabaseControl.AddChannelLink(n1,n2))
+    #return
+#if message.content.startswith(discordprefix+"delete_link") and not message.author.bot:
+ #   n1 = str(message.content.split(" ")[1])
+  #  n1 = DatabaseControl.to_ChannelId(n1)
+    #n2 = str(message.content.split(" ")[2])
+    #n2 = DatabaseControl.to_ChannelId(n2)
+    #await message.channel.send(DatabaseControl.DeleteChannelLink_ChanNum(n1,n2))
+   # return
+#if message.content.startswith(discordprefix+"GetLinked") and not message.author.bot:
+ #   n1 = str(message.content.split(" ")[1])
+  #  n1 = DatabaseControl.to_ChannelId(n1)
+   # await message.channel.send(DatabaseControl.GetLinkedChannels(client,n1))
+    #return
+#RANK SYSTEM COMMANDS
+#if message.content.startswith(discordprefix+"rank") and not message.author.bot:
+ #   await RankSystem.GetStatus(message)
+  #  #await message.channel.send(RankSystem.CheckIfExisting(user))
+   # return
+#if message.content.startswith(discordprefix+"dev_rank") and not message.author.bot:
+ #   await RankSystem.DevGetStatus(client,message)
+    #await message.channel.send(RankSystem.CheckIfExisting(user))
+  #  return
+#if message.content.startswith(discordprefix+"get_user") and not message.author.bot:
+ #   await message.channel.send(RankSystem.GetUserByName(client,message))
+  #  return
+#if message.content.startswith(discordprefix+"lead") and not message.author.bot:
+ #   await RankSystem.GetTop10(client,message)
+  #  return
+#if message.content.startswith(discordprefix+"toggle") and not message.author.bot:
+ #   args = message.content.split(" ")[1]
+  #  if args == "level_msg":
+ #     await message.channel.send(RankSystem.ToggleLevelUpMsg(message))
+  #  return
+#GLOBAL LINKER
+#if message.content.startswith(discordprefix+"global") and not message.author.bot:
+    #await message.channel.send(GlobalLinker.AddGlobalLink(client,message))
+    #return
+#UPDATE NOTIFY
+#if message.content.startswith(discordprefix+"update") and message.author.id in admins and not message.author.bot:
+    #await UpdateNotify.UpdateNote(message,client)
+    
+   # return
+#-------------------------------------------------
+
+
 
 @client.command()
 async def assist(ctx):
@@ -557,9 +615,9 @@ async def assist(ctx):
 @client.command()
 @commands.has_permissions(administrator=True)
 async def mod(ctx):
-    embed = discord.Embed(title="𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱ is here to MODERATE!", description="Experimental Module", color=0xcba1ff)
+    embed = discord.Embed(title="𝑺𝒕𝒂𝒓𝒓𝒚 is here to MODERATE!", description="Experimental Module", color=0xcba1ff)
 
-    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱#8656 | Serenity#7879')
+    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 | Serenity#7879')
   
     embed.set_image(url='https://media1.tenor.com/images/24b4cf8512e58420d0cdfea3df5a3cce/tenor.gif?itemid=14432583')
 
@@ -583,7 +641,7 @@ async def textmod(ctx):
 async def text(ctx):
     embed = discord.Embed(title="Welcome to the Text command module! 🥳", description="Text can be modified per the commands below!", color=0x6A9EFF)
 
-    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱#8656 | Serenity#7879')
+    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 | Serenity#7879')
   
     embed.set_image(url='https://media1.tenor.com/images/24b4cf8512e58420d0cdfea3df5a3cce/tenor.gif?itemid=14432583')
 
@@ -605,7 +663,7 @@ async def text(ctx):
 async def activity(ctx):
     embed = discord.Embed(title="Perform a simple activity! 🥳", description="Such as random generators, SUSHI.", color=0xFF756A)
 
-    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱#8656 | Serenity#7879')
+    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 | Serenity#7879')
   
     embed.set_image(url='https://media1.tenor.com/images/24b4cf8512e58420d0cdfea3df5a3cce/tenor.gif?itemid=14432583')
 
@@ -623,7 +681,7 @@ async def activity(ctx):
 async def social(ctx):
     embed = discord.Embed(title="Socialize with Starry! 🥳", description="Tell a joke or greeting!", color=0x6AFFC5)
 
-    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱#8656 | Serenity#7879')
+    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 | Serenity#7879')
   
     embed.set_image(url='https://media1.tenor.com/images/24b4cf8512e58420d0cdfea3df5a3cce/tenor.gif?itemid=14432583')
 
@@ -643,7 +701,7 @@ async def social(ctx):
 async def media(ctx):
     embed = discord.Embed(title="Here is some Medias! 🥳", description="The Kawaii command, I give credit to the OwO bot!", color=0xFFFB6A)
 
-    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱#8656 | Serenity#7879')
+    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 | Serenity#7879')
   
     embed.set_image(url='https://media1.tenor.com/images/24b4cf8512e58420d0cdfea3df5a3cce/tenor.gif?itemid=14432583')
 
@@ -658,8 +716,6 @@ async def media(ctx):
     embed.add_field(name='🤣Memes! (under heavy work)', value='star+memes')
 
     embed.add_field(name='🌈Aesthetic!', value='star+aesthetic')
-
-    embed.add_field(name="🎶Starry's Favorites!", value="star+favsong")
     
     await ctx.send(embed=embed)
 
@@ -667,7 +723,7 @@ async def media(ctx):
 async def utility(ctx):
     embed = discord.Embed(title="Some simple utility tools! 🥳", description="Very simple commands, not moderation", color=0x949494)
 
-    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱#8656 | Serenity#7879')
+    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 | Serenity#7879')
   
     embed.set_image(url='https://media1.tenor.com/images/24b4cf8512e58420d0cdfea3df5a3cce/tenor.gif?itemid=14432583')
 
@@ -703,7 +759,7 @@ async def utility(ctx):
 async def abocred(ctx):
     embed = discord.Embed(title="Check my about, credits, updates, and invite me! 🥳", color=0xFF9974)
 
-    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱#8656 | Serenity#7879')
+    embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 | Serenity#7879')
   
     embed.set_image(url='https://media1.tenor.com/images/24b4cf8512e58420d0cdfea3df5a3cce/tenor.gif?itemid=14432583')
 
