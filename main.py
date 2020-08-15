@@ -25,12 +25,7 @@ import itertools
 import functools
 import math
 from async_timeout import timeout
-from clear_code import clear
-import DatabaseControl
-import RankSystem
-import GlobalLinker
-import UpdateNotify
-import JDJG_os
+
 from pymongo import MongoClient
 from datetime import *
 import math
