@@ -21,6 +21,9 @@ pymongo = "^3.11.0"
 dnspython = "^2.0.0"
 discord-webhook = "^0.8.0"
 tweepy = "^3.9.0"
+db = "^0.1.1"
+utils = "^1.0.1"
+monotonic = "^1.5"
 
 [tool.poetry.dev-dependencies]
 

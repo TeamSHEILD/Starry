@@ -84,3 +84,8 @@ ra = ['You are a very nice member here 😊',
         'I am a good bot!',
         'This is funnnnnn!'
         ]
+
+tips = ['Run \'star+assist\' to see all the command modules!',
+        'This bot was made using many pieces of simple generation code!',
+        'This bot is pretty aesthetic, don\'t you agree?'
+        ]
