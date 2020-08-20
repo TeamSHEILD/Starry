@@ -15,8 +15,10 @@ class Giveaway(commands.Cog):
       embed.set_thumbnail(url='https://cdn.discordapp.com/emojis/737006339619815535.gif?v=1')
       embed.set_footer(text = f'Hosted by {ctx.author.name}')
       embed.add_field(name = '🎉 Come and Join!', value = f'Prize : {prize}\nRunning Time : 5 seconds!\nWinners : {amount} of you (lucky) people')
-      await ctx.send(embed = embed)
-
+      message = message = await ctx.send(embed = embed)
+      await message.add_reaction('🎉')
+      await message.add_reaction('🥳')
+      
       await asyncio.sleep(5)
 
       embed = discord.Embed(title = '🎉 The GIVEAWAY! has ended🎉',color = 0xff6f70)
@@ -36,7 +38,9 @@ class Giveaway(commands.Cog):
       embed.set_thumbnail(url='https://cdn.discordapp.com/emojis/737006339619815535.gif?v=1')
       embed.set_footer(text = f'Hosted by {ctx.author.name}')
       embed.add_field(name = '🎉 Come and Join!', value = f'Prize : {prize}\nRunning Time : 5 minutes!\nWinners : {amount} of you (lucky) people')
-      await ctx.send(embed = embed)
+      message = await ctx.send(embed = embed)
+      await message.add_reaction('🎉')
+      await message.add_reaction('🥳')
 
       await asyncio.sleep(300)
 
@@ -57,7 +61,9 @@ class Giveaway(commands.Cog):
       embed.set_thumbnail(url='https://cdn.discordapp.com/emojis/737006339619815535.gif?v=1')
       embed.set_footer(text = f'Hosted by {ctx.author.name}')
       embed.add_field(name = '🎉 Come and Join!', value = f'Prize : {prize}\nRunning Time : 10 minutes!\nWinners : {amount} of you (lucky) people')
-      await ctx.send(embed = embed)
+      message = await ctx.send(embed = embed)
+      await message.add_reaction('🎉')
+      await message.add_reaction('🥳')
 
       await asyncio.sleep(600)
 
@@ -78,7 +84,9 @@ class Giveaway(commands.Cog):
       embed.set_thumbnail(url='https://cdn.discordapp.com/emojis/737006339619815535.gif?v=1')
       embed.set_footer(text = f'Hosted by {ctx.author.name}')
       embed.add_field(name = '🎉 Come and Join!', value = f'Prize : {prize}\nRunning Time : 30 minutes!\nWinners : {amount} of you (lucky) people')
-      await ctx.send(embed = embed)
+      message = await ctx.send(embed = embed)
+      await message.add_reaction('🎉')
+      await message.add_reaction('🥳')
 
       await asyncio.sleep(1800)
 
@@ -99,8 +107,9 @@ class Giveaway(commands.Cog):
       embed.set_thumbnail(url='https://cdn.discordapp.com/emojis/737006339619815535.gif?v=1')
       embed.set_footer(text = f'Hosted by {ctx.author.name}')
       embed.add_field(name = '🎉 Come and Join!', value = f'Prize : {prize}\nRunning Time : 1 hour!\nWinners : {amount} of you (lucky) people')
-      await ctx.send(embed = embed)
-
+      message = await ctx.send(embed = embed)
+      await message.add_reaction('🎉')
+      await message.add_reaction('🥳')
       await asyncio.sleep(3600)
 
       embed = discord.Embed(title = '🎉 The GIVEAWAY! has ended🎉',color = 0xff6f70)
@@ -120,8 +129,9 @@ class Giveaway(commands.Cog):
       embed.set_thumbnail(url='https://cdn.discordapp.com/emojis/737006339619815535.gif?v=1')
       embed.set_footer(text = f'Hosted by {ctx.author.name}')
       embed.add_field(name = '🎉 Come and Join!', value = f'Prize : {prize}\nRunning Time : 2 hours!\nWinners : {amount} of you (lucky) people')
-      await ctx.send(embed = embed)
-
+      message = await ctx.send(embed = embed)
+      await message.add_reaction('🎉')
+      await message.add_reaction('🥳')
       await asyncio.sleep(7200)
 
       embed = discord.Embed(title = '🎉 The GIVEAWAY! has ended🎉',color = 0xff6f70)
@@ -141,8 +151,9 @@ class Giveaway(commands.Cog):
       embed.set_thumbnail(url='https://cdn.discordapp.com/emojis/737006339619815535.gif?v=1')
       embed.set_footer(text = f'Hosted by {ctx.author.name}')
       embed.add_field(name = '🎉 Come and Join!', value = f'Prize : {prize}\nRunning Time : 3 hours!\nWinners : {amount} of you (lucky) people')
-      await ctx.send(embed = embed)
-
+      message = await ctx.send(embed = embed)
+      await message.add_reaction('🎉')
+      await message.add_reaction('🥳')
       await asyncio.sleep(10800)
 
       embed = discord.Embed(title = '🎉 The GIVEAWAY! has ended🎉',color = 0xff6f70)
@@ -162,8 +173,9 @@ class Giveaway(commands.Cog):
       embed.set_thumbnail(url='https://cdn.discordapp.com/emojis/737006339619815535.gif?v=1')
       embed.set_footer(text = f'Hosted by {ctx.author.name}')
       embed.add_field(name = '🎉 Come and Join!', value = f'Prize : {prize}\nRunning Time : 6 hours!\nWinners : {amount} of you (lucky) people')
-      await ctx.send(embed = embed)
-
+      message = await ctx.send(embed = embed)
+      await message.add_reaction('🎉')
+      await message.add_reaction('🥳')
       await asyncio.sleep(21600)
 
       embed = discord.Embed(title = '🎉 The GIVEAWAY! has ended🎉',color = 0xff6f70)
@@ -183,8 +195,9 @@ class Giveaway(commands.Cog):
       embed.set_thumbnail(url='https://cdn.discordapp.com/emojis/737006339619815535.gif?v=1')
       embed.set_footer(text = f'Hosted by {ctx.author.name}')
       embed.add_field(name = '🎉 Come and Join!', value = f'Prize : {prize}\nRunning Time : 12 hours!\nWinners : {amount} of you (lucky) people')
-      await ctx.send(embed = embed)
-
+      message = await ctx.send(embed = embed)
+      await message.add_reaction('🎉')
+      await message.add_reaction('🥳')
       await asyncio.sleep(43200)
 
       embed = discord.Embed(title = '🎉 The GIVEAWAY! has ended🎉',color = 0xff6f70)
@@ -204,8 +217,9 @@ class Giveaway(commands.Cog):
       embed.set_thumbnail(url='https://cdn.discordapp.com/emojis/737006339619815535.gif?v=1')
       embed.set_footer(text = f'Hosted by {ctx.author.name}')
       embed.add_field(name = '🎉 Come and Join!', value = f'Prize : {prize}\nRunning Time : 1 day!\nWinners : {amount} of you (lucky) people')
-      await ctx.send(embed = embed)
-
+      message = await ctx.send(embed = embed)
+      await message.add_reaction('🎉')
+      await message.add_reaction('🥳')
       await asyncio.sleep(43200)
 
       embed = discord.Embed(title = '🎉 The GIVEAWAY! has ended🎉',color = 0xff6f70)
@@ -225,8 +239,9 @@ class Giveaway(commands.Cog):
       embed.set_thumbnail(url='https://cdn.discordapp.com/emojis/737006339619815535.gif?v=1')
       embed.set_footer(text = f'Hosted by {ctx.author.name}')
       embed.add_field(name = '🎉 Come and Join!', value = f'Prize : {prize}\nRunning Time : 2 days!\nWinners : {amount} of you (lucky) people')
-      await ctx.send(embed = embed)
-
+      message = await ctx.send(embed = embed)
+      await message.add_reaction('🎉')
+      await message.add_reaction('🥳')
       await asyncio.sleep(86400)
 
       embed = discord.Embed(title = '🎉 The GIVEAWAY! has ended🎉',color = 0xff6f70)
@@ -246,8 +261,9 @@ class Giveaway(commands.Cog):
       embed.set_thumbnail(url='https://cdn.discordapp.com/emojis/737006339619815535.gif?v=1')
       embed.set_footer(text = f'Hosted by {ctx.author.name}')
       embed.add_field(name = '🎉 Come and Join!', value = f'Prize : {prize}\nRunning Time : 3 days!\nWinners : {amount} of you (lucky) people')
-      await ctx.send(embed = embed)
-
+      message = await ctx.send(embed = embed)
+      await message.add_reaction('🎉')
+      await message.add_reaction('🥳')
       await asyncio.sleep(259200)
 
       embed = discord.Embed(title = '🎉 The GIVEAWAY! has ended🎉',color = 0xff6f70)
@@ -267,8 +283,9 @@ class Giveaway(commands.Cog):
       embed.set_thumbnail(url='https://cdn.discordapp.com/emojis/737006339619815535.gif?v=1')
       embed.set_footer(text = f'Hosted by {ctx.author.name}')
       embed.add_field(name = '🎉 Come and Join!', value = f'Prize : {prize}\nRunning Time : 1 week!\nWinners : {amount} of you (lucky) people')
-      await ctx.send(embed = embed)
-
+      message = await ctx.send(embed = embed)
+      await message.add_reaction('🎉')
+      await message.add_reaction('🥳')  
       await asyncio.sleep(604800)
 
       embed = discord.Embed(title = '🎉 The GIVEAWAY! has ended🎉',color = 0xff6f70)
