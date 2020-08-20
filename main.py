@@ -58,7 +58,7 @@ async def on_ready():
 	print("Bot Creator: Serenity#7879")
 	print(today)
 	print('-----------------------------')
-	await client.change_presence(status=discord.Status.online,activity=discord.Activity(type=discord.ActivityType.playing, name=" 𝙨𝙩𝙖𝙧+𝙢𝙖𝙞𝙣"))
+	await client.change_presence(status=discord.Status.online,activity=discord.Activity(type=discord.ActivityType.playing, name=" star+help"))
 
 @client.command()
 async def simpltime(ctx):
@@ -504,7 +504,7 @@ async def cogs(ctx):
   embed.set_footer(text=f"Try the cogs out, {ctx.author}!",icon_url=ctx.author.avatar_url)
   embed.set_image(url='https://media1.tenor.com/images/24b4cf8512e58420d0cdfea3df5a3cce/tenor.gif?itemid=14432583')
   embed.add_field(name="Here are the cogs!", value="I decided to devote this section here to commands that rely upon Cogs to work!",inline = False)
-  embed.add_field(anem="Wanna play some trivia?", value="star+randomtrivia")
+  embed.add_field(name="Wanna play some trivia?", value="star+randomtrivia")
   embed.add_field(name="Do a Google Search!", value="star+google")
   embed.add_field(name="Post a tweet on Twitter!", value="star+twitter")
   embed.add_field(name="Get Some Memes!", value="star+meme")
