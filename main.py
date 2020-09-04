@@ -38,7 +38,6 @@ from pytz import timezone
 from async_timeout import timeout
 today = datetime.today()
 day = today.strftime('%m/%d/%Y %H:%M:%S')
-
 coin = ["Heads", "Tails", "Heads", "Tails", "Heads", "Tails", "Heads", "Tails","HA! The coin fell off the table! No one wins! (or loses....)"]
 flip = coin[random.randint(0, 8)]
 key = os.getenv('key')
@@ -49,7 +48,6 @@ client.remove_command("help")
 discordprefix = "star+"
 time_location = "America/New_York"
 
-
 for filename in os.listdir('./cogs'):
 	if filename.endswith('.py'):
 		client.load_extension(f'cogs.{filename[:-3]}')
@@ -57,12 +55,28 @@ for filename in os.listdir('./cogs'):
 @client.event
 async def on_ready():
 	print('Logged in as:')
-	print("Username:", client.user.name + " #8656")
+	print("Username:", client.user.name + " #9492")
 	print("Client ID:", client.user.id)
-	print("Bot Creator: Serenity#7879")
+	print("Bot Creator: Shadi#7894")
 	print(today)
 	print('-----------------------------')
 	await client.change_presence(status=discord.Status.online,activity=discord.Activity(type=discord.ActivityType.streaming, name=" star+help"))
+
+@client.event
+async def on_member_join(member):
+    channel = client.get_channel(450600486190448650)
+    roles = [role for role in member.roles]
+    pfp = member.avatar_url
+    embed = discord.Embed(title=f'This is {member.name}',colour=0xff6f70)
+    embed.set_thumbnail(url=(pfp))
+    embed.add_field(name='Name:', value=f'{member.name}',inline=True)
+    embed.add_field(name='Discriminator:', value=f'{member.discriminator}', inline=True)
+    embed.add_field(name='User ID:', value=f'{member.id}', inline = True)
+    embed.add_field(name='User Status:', value=f'{member.status}',inline = True)
+    embed.add_field(name="Account Creation Date:", value=member.created_at.strftime("%a, %#d %B %Y, %I:%M %p UTC"),inline = True)
+    embed.add_field(name="Join Date:", value=member.joined_at.strftime("%a, %#d %B %Y, %I:%M %p UTC"), inline = True)
+    embed.add_field(name="Bot?", value=member.bot, inline = True)
+    await channel.send(embed=embed)
 
 @client.command()
 async def simpltime(ctx):
@@ -79,13 +93,23 @@ async def test(ctx, *args):
 	await ctx.send(embed=embed)
 
 @client.command()
+@commands.has_permissions(administrator=True)
+async def changenickname(ctx, member: discord.Member, nick):
+    await member.edit(nick=nick)
+    embed = discord.Embed(title = "Nickname Successfully Changed!", color=random.randint(0, 16777215))
+    embed.add_field(name = "Original Name", value = f"{member.name}")
+    embed.add_field(name = "New Nickname", value = f"{member.mention}")
+    message = await ctx.send(embed=embed)
+    await message.add_reaction('📝')
+    
+@client.command()
 async def parrot(ctx, *, mssg=None):
   if mssg == None:
-    embed = discord.Embed(title="🦜 Parrot Starry", color=0xE64885)
+    embed = discord.Embed(title="🦜 Parrot Starry", color=random.randint(0, 16777215))
     embed.add_field(name="Slight Problem...", value='hmm whattya want me to copy?')
     await ctx.send(embed=embed)
   else:
-    embed = discord.Embed(title="🦜 Parrot Starry", color=0x489AE6)
+    embed = discord.Embed(title="🦜 Parrot Starry", color=random.randint(0, 16777215))
     embed.add_field(name="now gimme cracker pls 🍘", value=f'{mssg}')
     message = await ctx.send(embed=embed)
     await message.add_reaction('🍘')
@@ -93,47 +117,29 @@ async def parrot(ctx, *, mssg=None):
 
 @client.command()
 async def serverpop(ctx):
-  embed = discord.Embed(title='🏭 Server Population', color=0xDD3C00)
+  embed = discord.Embed(title='🏭 Server Population', color=random.randint(0, 16777215))
   embed.add_field(name='How many members are in this server? (bots included)',value=f'There are {ctx.guild.member_count} members (including bots) in this server')
   message = await ctx.send(embed=embed)
   await message.add_reaction('🏭')
 
 @client.command()
-async def joinvc(ctx, channel):
-	channel = ctx.message.author.voice.voice_channel
-	await client.join_voice_channel(channel)
-
-@client.command()
-async def leavevc(ctx):
-	guild = ctx.message.guild
-	voice_client = guild.voice_client(server)
-	await voice_client.disconnect()
-
-@client.command()
-async def playvc(ctx, url):
-	guild = ctx.message.guild
-	voice_client = guild.voice_client(server)
-	player = await voice_client.create_ytdl_player(url)
-	playerrs[server.id] = player
-	player.start()
-
-@client.command()
 async def feedback(ctx, *, mssg=None):
   if mssg == None:
-    embed = discord.Embed(title="Send feedback", color=0xE44865)
+    embed = discord.Embed(title="Send feedback", color=random.randint(0, 16777215))
     embed.add_field(name="Slight Problem...", value='hmm whattya want to feedback on?')
     await ctx.send(embed=embed)
   else:
     message = await ctx.send(f'{ctx.author}, your feedback on me has been sent!')
     await message.add_reaction('👏')
+    await ctx.send("If you would like to contact the owner directly, he is open! <@717822288375971900>")
     channel = client.get_channel(738792718964359340)
-    embed = discord.Embed(title="We have feedback!", color=0x422AE6)
+    embed = discord.Embed(title="We have feedback!", color=random.randint(0, 16777215))
     embed.add_field(name=f'''{ctx.author} from {ctx.guild.name} says...''',value=f'{mssg}')
     await channel.send(embed=embed)
 
 @client.command()
 async def ping(ctx):
-  embed = discord.Embed(title="📡 Ping Latency", color=0x105900)
+  embed = discord.Embed(title="📡 Ping Latency", color=random.randint(0, 16777215))
   embed.add_field(name="📡",value=f'This is my ping -> ({round(client.latency * 10000)})ms')
   message = await ctx.send(embed=embed)
   await message.add_reaction('📡')
@@ -141,11 +147,11 @@ async def ping(ctx):
 @client.command()
 async def reverse(ctx, *, mssg=None):
   if mssg == None:
-    embed = discord.Embed(title="🔄 Reverse that!", color=0xE64885)
+    embed = discord.Embed(title="🔄 Reverse that!", color=random.randint(0, 16777215))
     embed.add_field(name="hmmm", value='gimme something to reverse!')
     await ctx.send(embed=embed)
   else:
-    embed = discord.Embed(title="🔄 Reverse that!", color=0x3258BF)
+    embed = discord.Embed(title="🔄 Reverse that!", color=random.randint(0, 16777215))
     embed.add_field(name="Pop poP", value=f'{mssg}' [::-1])
     message = await ctx.send(embed=embed)
     await message.add_reaction('🔄')
@@ -153,18 +159,18 @@ async def reverse(ctx, *, mssg=None):
 @client.command()
 async def afk(ctx, *, mssg=None):
 	if mssg == None:
-		embed = discord.Embed(title="📴AFK Status", color=0xFF7034)
+		embed = discord.Embed(title="📴AFK Status", color=random.randint(0, 16777215))
 		embed.add_field(name="What is your AFK Status?", value='Set one up!')
 		await ctx.send(embed=embed)
 	else:
-		embed = discord.Embed(title="📴AFK Status", color=0xFFA234)
+		embed = discord.Embed(title="📴AFK Status", color=random.randint(0, 16777215))
 		embed.add_field(name="Your AFK Status has been set to:", value=f"'{mssg}'")
 		await ctx.send(embed=embed)
 
 @client.command()
 async def human(ctx, *, mssg=None, amount=1):
 	if mssg == None:
-		embed = discord.Embed(title="🙍‍♂️ Human Bot", color=0xC8FFED)
+		embed = discord.Embed(title="🙍‍♂️ Human Bot", color=random.randint(0, 16777215))
 		embed.add_field(name="hey wait a minute!", value="I can't ghost your message if you don't give me one!")
 		await ctx.send(embed=embed)
 	else:
@@ -177,8 +183,8 @@ async def uptime(ctx):
 
 @client.command()
 async def about(ctx):
-	embed = discord.Embed(title="All about Starry!!", color=0x7100FF)
-	embed.add_field(name="I am Serenity's favored creation 😋",value="**Bot Name:** Starry\n**Creator:** Serenity#7879\n**Programming Language:** Python 3.8\n**Date Created:** June 7th, 2020 | 14:30:00 PM\n **Purpose:** it's a fun bot, so it doesn't use moderation, and is still in the making, but hopefully  𝑺𝒕𝒂𝒓𝒓𝒚 adds a passive, customized feel to any server that it is in!\nIt can do very basic stuff, but if you want more features, DM 'Serenity#7879', I'm always open to some nice feedback!")
+	embed = discord.Embed(title="All about Starry!!", color=random.randint(0, 16777215))
+	embed.add_field(name="I am Serenity's favored creation 😋",value="**Bot Name:** Starry\n**Creator:** Shadi#7894\n**Programming Language:** Python 3.8\n**Date Created:** June 7th, 2020 | 14:30:00 PM\n **Purpose:** it's a fun bot, so it doesn't use moderation, and is still in the making, but hopefully  𝑺𝒕𝒂𝒓𝒓𝒚 adds a passive, customized feel to any server that it is in!\nIt can do very basic stuff, but if you want more features, DM 'Shadi#7894', I'm always open to some nice feedback!")
 	await ctx.send(embed=embed)
 
 @client.command()
@@ -196,14 +202,14 @@ async def on_command_error(ctx, error):
 @client.command()
 async def greeting(ctx):
   gr1 = random.choice(piclinks.gr)
-  embed = discord.Embed(title="Hello Starry! ✨", color=0xBD9EFF)
+  embed = discord.Embed(title="Hello Starry! ✨", color=random.randint(0, 16777215))
   embed.add_field(name="How are you today?", value=gr1)
   message = await ctx.send(embed=embed)
   await message.add_reaction('🥰')
 
 @client.command()
 async def time(ctx):
-  embed = discord.Embed(title="⌚ Time in Coordinated Universal Time", color=0x575353)
+  embed = discord.Embed(title="⌚ Time in Coordinated Universal Time", color=random.randint(0, 16777215))
   embed.add_field(name="Time (UTC):", value=today)
   message = await ctx.send(embed=embed)
   await message.add_reaction('⌚')
@@ -295,10 +301,10 @@ async def corny(ctx):
 	      'What happens to a frog\'s car when it breaks down?\nIt gets toad away.',
 	      'What did the duck say when it bought lipstick?\n"Put it on my bill."',
 	      ' What do you call two monkeys that share an Amazon account?\nPrime mates.',
-	      'Whew, this is Serenity#7879 here, the creator of this bot. You just got saved from seeing a bunch of cringy jokes I stole from some "clean" websites 🤣🤣'
+	      'Whew, this is Shadi#7894 here, the creator of this bot. You just got saved from seeing a bunch of cringy jokes I stole from some "clean" websites 🤣🤣'
 	]
 	co1 = random.choice(co)
-	embed = discord.Embed(title="🌽 Corny Jokes", color=0xC9FF92)
+	embed = discord.Embed(title="🌽 Corny Jokes", color=random.randint(0, 16777215))
 	embed.add_field(name="Ahhhh so corny!", value=co1)
 	message = await ctx.send(embed=embed)
 
@@ -310,13 +316,13 @@ async def facts(ctx):
 	]
 
 	fa1 = random.choice(fa)
-	embed = discord.Embed(title="📔Random Facts", color=0xFFB694)
+	embed = discord.Embed(title="📔Random Facts", color=random.randint(0, 16777215))
 	embed.add_field(name="Here's a random fact 😋", value=fa1)
 	message = await ctx.send(embed=embed)
 
 @client.command()
 async def invite(ctx):
-	embed = discord.Embed(title="Invite 𝑺𝒕𝒂𝒓𝒓𝒚! 🥳",description="Heyyyy thank you sooo much, for requesting to invite me to your server 🥰! It will be a great pleasure of mine to bring that small sprinkle of comedy to your channel, and you won\'t regret this!😋\n𝑺𝒕𝒂𝒓𝒓𝒚 ⎰:sparkles:⎱ with administrator permissions: https://discord.com/api/oauth2/authorize?client_id=742030317451214888&permissions=8&scope=bot\n𝑺𝒕𝒂𝒓𝒓𝒚 ⎰:sparkles:⎱ with only text and general permissions (no administrator): https://discord.com/api/oauth2/authorize?client_id=742030317451214888&permissions=2084568823&scope=bot",color=0x8F40FF)
+	embed = discord.Embed(title="Invite 𝑺𝒕𝒂𝒓𝒓𝒚! 🥳",description="Heyyyy thank you sooo much, for requesting to invite me to your server 🥰! It will be a great pleasure of mine to bring that small sprinkle of comedy to your channel, and you won\'t regret this!😋\n𝑺𝒕𝒂𝒓𝒓𝒚 ⎰:sparkles:⎱ with administrator permissions: https://discord.com/api/oauth2/authorize?client_id=742030317451214888&permissions=8&scope=bot\n𝑺𝒕𝒂𝒓𝒓𝒚 ⎰:sparkles:⎱ with only text and general permissions (no administrator): https://discord.com/api/oauth2/authorize?client_id=742030317451214888&permissions=2084568823&scope=bot",color=random.randint(0, 16777215))
 	embed.set_footer(text=f"Thank you {ctx.author}", icon_url=ctx.author.avatar_url)
 	message = await ctx.send(embed=embed)
 
@@ -370,7 +376,7 @@ async def join(ctx, *, mssg=None):
 async def creator(ctx):
 	embed = discord.Embed(title="🥳 𝑺𝒕𝒂𝒓𝒓𝒚's Creator", color=0xC592FF)
 	embed.set_footer(text=f"{ctx.author} took interest", icon_url=ctx.author.avatar_url)
-	embed.add_field(name="Keep in note that the creator changes names sometimes...",value="Currently Right Now: 'Serenity#7879'")
+	embed.add_field(name="Keep in note that the creator changes names sometimes...",value="Currently Right Now: 'Shadi#7894'")
 	embed.add_field(name="Previous name",value="'StarryAurora🌟#8018','Shaaaaddiii✨#8018','Shadi#7879'")
 	await ctx.send(embed=embed)
 
@@ -378,7 +384,7 @@ async def creator(ctx):
 async def serverinfo(ctx):
     roles = [role for role in ctx.guild.roles]
     channels = [channel for channel in ctx.guild.channels]
-    embed = discord.Embed(title="Guild Info")
+    embed = discord.Embed(title="Guild Info", color=random.randint(0, 16777215))
     embed.add_field(name='Server Name:',value=f'{ctx.guild.name}')
     embed.add_field(name='Server ID:',value=f'{ctx.guild.id}')
     embed.add_field(name='Server region:',value=f'{ctx.guild.region}')
@@ -387,7 +393,8 @@ async def serverinfo(ctx):
     embed.add_field(name='Member Count:',value=f'{ctx.guild.member_count}')
     embed.add_field(name='Amount of Channels:',value=f"{len(channels)}")
     embed.add_field(name='Amount of Roles:',value=f"{len(roles)}")
-    await ctx.send(embed=embed)
+    message = await ctx.send(embed=embed)
+    await message.add_reaction('📉')
 
 @client.command()
 @commands.has_permissions(administrator=True)
@@ -438,8 +445,7 @@ async def privid(ctx, member: discord.Member):
 
 @client.command()
 async def allinfo(ctx, member: discord.Member):
-  user = ctx.author
-  playinggame = user.activity
+  playinggame = member.activity
   roles = [role for role in member.roles]
   pfp = member.avatar_url
   embed = discord.Embed(title=f'This is {member.name}',colour=member.color,timestamp=ctx.message.created_at)
@@ -456,6 +462,7 @@ async def allinfo(ctx, member: discord.Member):
   embed.add_field(name="Join Date:",value=member.joined_at.strftime("%a, %#d %B %Y, %I:%M %p UTC"),inline=False)
   embed.add_field(name="Bot?", value=member.bot, inline=False)
   await ctx.send(embed=embed)
+
 
 @client.command()
 async def where(ctx):
@@ -561,169 +568,17 @@ async def mail(ctx,member: discord.Member,*,mssg,):
 #----------------------------------------
 @client.command()
 async def help(ctx):
-  embed = discord.Embed(title="🥳 𝑺𝒕𝒂𝒓𝒓𝒚 ⎰✨⎱ is here to have fun! 🥳",description="Choose an option below! This is a bot to have fun with, so... have fun!! 😁🤣",color=0x8F40FF)
-  embed.set_footer(text=f"Welcome to Starry's interface, {ctx.author}!",icon_url=ctx.author.avatar_url)
-  embed.set_image(url='https://media1.tenor.com/images/24b4cf8512e58420d0cdfea3df5a3cce/tenor.gif?itemid=14432583')
-  embed.add_field(name="💬 Text Commands!", value="star+text")
-  embed.add_field(name="🎈 Activities!", value="star+activity")
-  embed.add_field(name="🤗 Socialize!", value="star+social")
-  embed.add_field(name="🥳 Giveaway Commands!", value="star+giveaways")
-  embed.add_field(name="📸 Media Sorts!", value="star+media")
-  embed.add_field(name="🔧 Starry Utility!", value="star+utility")
-  embed.add_field(name="🔨 Starry Moderation!", value="star+mod")
-  embed.add_field(name="📙 About and Credits!", value="star+abocred")
-  embed.add_field(name="The Cogs!",value="star+cogs")
-  message = await ctx.send(embed=embed)
+  await member.create_dm()
+  await ctx.send(f"{ctx.author.mention}, I have DM'ed you with all the commands!")
+  await channel.send("Hello! And thanks for choosing Starry!\nThe star+help command has been run, which is why this DM has been sent. Let's take a look at what I can do!")
+  await channel.send("For Fun Commands! | You want to have fun?\n\nParrot | Copies text in an embed!\t``star+parrot <message>``\nReverse | Reverses text in an embed!\t``star+reverse <message>``\nHuman | Anonymizes text you say!\t``star+human <message>``\nRate | Gives a random rating!\t``star+rate``\nGrade | Simulates a test taking! ``star+grade``\nCorny | Tells a corny joke!\t``star+corny``\nFacts | Tells a random fact!\t``star+facts``\nSushi | Get some sushi!\t``star+sushi``")
+  await channel.send("More Fun and Cuteness! | You have come back for more fun I see?\n\nMemes | Just a single meme!\t``star+memes``\nMeme | More memes!\t``star+meme``\nCat | See a kitty!\t``star+cat``\nDog | See a doggy!\t``star+dog``\nTrivia | Test your knowledge!\t``star+trivia``")
   await message.add_reaction('<:HyperDance:739831597083263048>')
   await message.add_reaction('<:kawaiibunny:738782552122196148>')
 
-@client.command()
-async def giveaways(ctx):
-  embed = discord.Embed(title = "Starry is very happy to do Giveaways!!",color=0x000000)
-  embed.add_field(name="Giveaway Syntax", value="```star+<giveaway_command> <winner_ammount> <item>```\nThese giveaways are preset times to choose from below, and you do not need to put a \"w\" in front of the amount of winners.")
-  embed.add_field(name="5 Second Drop",value="star+fivesecgive")
-  embed.add_field(name="5 Minute Giveaway",value="star+fivemingive")
-  embed.add_field(name="10 Minute Giveaway",value="star+tenmingive")
-  embed.add_field(name="30 Minute Giveaway",value="star+thirtymingive")
-  embed.add_field(name="1 Hour Giveaway",value="star+onehrgive")
-  embed.add_field(name="2 Hour Giveaway",value="star+twohrgive")
-  embed.add_field(name="3 Hour Giveaway",value="star+threehrgive")
-  embed.add_field(name="6 Hour Giveaway",value="star+sixhrgive")
-  embed.add_field(name="12 Hour Giveaway",value="star+twelvehrgive")
-  embed.add_field(name="1 Day Giveaway",value="star+onedaygive")
-  embed.add_field(name="2 Day Giveaway",value="star+twodaygive")
-  embed.add_field(name="3 Day Giveaway",value="star+threedaygive")
-  embed.add_field(name="1 Week Giveaway",value="star+oneweekgive")
-  message = await ctx.send(embed = embed)
-  await message.add_reaction('🎉')
-  await message.add_reaction('🥳')
-
-@client.command()
-async def cogs(ctx):
-  embed = discord.Embed(title="Starry has cogs!",color=0xFFCCCA)
-  embed.set_footer(text=f"Try the cogs out, {ctx.author}!",icon_url=ctx.author.avatar_url)
-  embed.set_image(url='https://media1.tenor.com/images/24b4cf8512e58420d0cdfea3df5a3cce/tenor.gif?itemid=14432583')
-  embed.add_field(name="Here are the cogs!", value="I decided to devote this section here to commands that rely upon Cogs to work!",inline = False)
-  embed.add_field(name="❔ Wanna play some trivia?", value="star+randomtrivia")
-  embed.add_field(name="🔎 Do a Google Search!", value="star+google")
-  embed.add_field(name="📩 Post a tweet on Twitter!", value="star+twitter")
-  embed.add_field(name="Get Some Memes!", value="star+meme")
-  embed.add_field(name="Wanna see a cat?", value="star+cat")
-  embed.add_field(name="Wanna see a dog?", value="star+dog")
-  embed.add_field(name="🐦Wanna see a bird?", value="star+bird")
-  await ctx.send(embed=embed)
-
-@client.command()
-@commands.has_permissions(administrator=True)
-async def mod(ctx):
-  embed = discord.Embed(title="𝑺𝒕𝒂𝒓𝒓𝒚 is here to MODERATE!", description="Experimental Module",color=0xcba1ff)
-  embed.set_footer(text='Starry | Serenity#7879')
-  embed.set_image(url='https://media1.tenor.com/images/24b4cf8512e58420d0cdfea3df5a3cce/tenor.gif?itemid=14432583'	)
-  embed.add_field(name="🔨 Starry Moderation!",value="So far, very few commands that require admin privelages", inline=False)
-  embed.add_field(name="🦶 Kick a Member", value="star+kick")
-  embed.add_field(name="❌ Ban a Member", value="star+ban")
-  embed.add_field(name="Channel Mute a Member",value="star+chanmute")
-  embed.add_field(name="Unmute a Member from the Channel",value="star+unchanmute")
-  embed.add_field(name="🔒 Personal User Info", value="star+privid")
-  embed.add_field(name="🎈 Add a Role!", value="star+role")
-  await ctx.send(embed=embed)
-
-@client.command()
-async def textmod(ctx):
-	embed = discord.Embed(title="Text Modification Time!! 🥳",color=0x6A9EFF)
-	embed.set_footer(text='Starry | Serenity#7879')
-	embed.set_image(url='https://media1.tenor.com/images/24b4cf8512e58420d0cdfea3df5a3cce/tenor.gif?itemid=14432583')
-	embed.add_field(name="Text Modifying!", value="Make Starry reverse, capitalize, lowercase, and do simple modifications to your text!",inline=False)
-	embed.add_field(name='Swapcasing',value='star+swapcase')
-	embed.add_field(name='Lowercasing', value='star+lowercase')
-	embed.add_field(name="Uppercasing", value="star+uppercase")
-	await ctx.send(embed=embed)
-
-@client.command()
-async def text(ctx):
-	embed = discord.Embed(title="Welcome to the Text command module! 🥳",description="Text can be modified per the commands below!",color=0x6A9EFF)
-	embed.set_footer(text='Starry | Serenity#7879')
-	embed.set_image(url='https://media1.tenor.com/images/24b4cf8512e58420d0cdfea3df5a3cce/tenor.gif?itemid=14432583')
-	embed.add_field(name="💬 Text Commands!", value="Here, you can make Starry say stuff, reverse stuff, humanize stuff, idk lol",inline=False)
-	embed.add_field(name='Text Modifiers', value='star+textmod')
-	embed.add_field(name="🙍‍♂️ Human", value="star+human")
-	embed.add_field(name="🦜Parrot!", value="star+parrot")
-	embed.add_field(name="🔄Reverse Speak", value="star+reverse")
-	await ctx.send(embed=embed)
-
-@client.command()
-async def activity(ctx):
-  embed = discord.Embed(title="Perform a simple activity! 🥳", description="Such as random generators, SUSHI.", color=0xFF756A)
-  embed.set_footer(text='Starry | Serenity#7879')
-  embed.set_image(url='https://media1.tenor.com/images/24b4cf8512e58420d0cdfea3df5a3cce/tenor.gif?itemid=14432583'
-	)
-  embed.add_field(name="🎈 Activities!", value="Simple activities!", inline=False)
-  embed.add_field(name="💵Flip a Dollar", value="star+flip")
-  embed.add_field(name="📝Test Grade", value="star+grade")
-  embed.add_field(name="Make a Tweet!", value="star+tweet")
-  embed.add_field(name="🍣Get Sushi", value="star+sushi")
-  await ctx.send(embed=embed)
-
-@client.command()
-async def social(ctx):
-	embed = discord.Embed(title="Socialize with Starry! 🥳",description="Tell a joke or greeting!",color=0x6AFFC5)
-	embed.set_footer(text='Starry | Serenity#7879')
-	embed.set_image(url='https://media1.tenor.com/images/24b4cf8512e58420d0cdfea3df5a3cce/tenor.gif?itemid=14432583')
-	embed.add_field(name="🤗 Socialize!", value="Random test generation!", inline=False)
-	embed.add_field(name="👋Hey Starry! How are you?", value="star+greeting")
-	embed.add_field(name="🌽Corny Jokes", value="star+corny")
-	embed.add_field(name="📔Random Facts", value="star+facts")
-	embed.add_field(name="📈Rate Stuff", value="star+rate")
-	await ctx.send(embed=embed)
-
-@client.command()
-async def media(ctx):
-	embed = discord.Embed(title="Here is some Medias! 🥳",description="The Kawaii command, I give credit to the OwO bot!",color=0xFFFB6A)
-	embed.set_footer(text='𝑺𝒕𝒂𝒓𝒓𝒚 | Serenity#7879')
-	embed.set_image(url='https://media1.tenor.com/images/24b4cf8512e58420d0cdfea3df5a3cce/tenor.gif?itemid=14432583')
-	embed.add_field(name="📸 Media Sorts!",value="You can do Kawaii! (inspired by the OwO bot!)\nOr you can see pictures and shots of a turtles I took myself!",inline=False)
-	embed.add_field(name='🥰Kawaii!', value='star+kawaii')
-	embed.add_field(name='🐢Turtle!', value='star+turtle')
-	embed.add_field(name='☕Frappuccino!', value='star+frap')
-	embed.add_field(name='🤣Memes! (under heavy work)', value='star+memes')
-	embed.add_field(name='🌈Aesthetic!', value='star+aesthetic')
-	await ctx.send(embed=embed)
-
-@client.command()
-async def utility(ctx):
-	embed = discord.Embed( title="Some simple utility tools! 🥳",description="Very simple commands, not moderation",color=0x949494)
-	embed.set_footer(text='Starry! | Serenity#7879')
-	embed.set_image(url='https://media1.tenor.com/images/24b4cf8512e58420d0cdfea3df5a3cce/tenor.gif?itemid=14432583')
-	embed.add_field(name="🔧 Starry Utility!", value="Simple tools", inline=False)
-	embed.add_field(name='📤Mail Someone!', value='star+mail')
-	embed.add_field(name='📁Identify a Member', value='star+identity')
-	embed.add_field(name="📴AFK Status", value="star+afk")
-	embed.add_field(name="🗺️Where am I?", value="star+where")
-	embed.add_field(name="⌚Current Time (UTC)", value="star+time")
-	embed.add_field(name="⏰SimplTime", value="star+simpltime")
-	embed.add_field(name="📚About Me!", value="star+about")
-	embed.add_field(name="📩Invite Me!", value="star+invite")
-	embed.add_field(name="🏭 Server Population", value="star+serverpop")
-	embed.add_field(name="📡Check Ping Latency", value="star+ping")
-	embed.add_field(name="✨Bot Creators Current Tag", value="star+creator")
-	embed.add_field(name="🎈About the Creator", value="star+createabout")
-	await ctx.send(embed=embed)
-
-@client.command()
-async def abocred(ctx):
-	embed = discord.Embed(title="Check my about, credits, updates, and invite me! 🥳",color=0xFF9974)
-	embed.set_footer(text='Starry! | Serenity#7879')
-	embed.set_image(url='https://media1.tenor.com/images/24b4cf8512e58420d0cdfea3df5a3cce/tenor.gif?itemid=14432583')
-	embed.add_field(name="📙 About and Credits!",value="About, Credits, Invites, Update log",inline=False)
-	embed.add_field(name="🔖Client ID (if you want to add me with customized permissions)", value='719944711972061274', inline=False)
-	embed.add_field(name="📚About Me!", value="star+about")
-	embed.add_field(name="📩Invite Me!", value="star+invite")
-	embed.add_field(name="✨Bot Creators Current Tag", value="star+creator")
-	embed.add_field(name="🎈About the Creator", value="star+createabout")
-	await ctx.send(embed=embed)
 
 #-----------------------------------------------
 
 
 B.b()
-client.run(os.getenv('TOKEN'))
+client.run(os.getenv('TOKENA'))
