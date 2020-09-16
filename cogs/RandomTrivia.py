@@ -10,7 +10,7 @@ class RandomTrivia(commands.Cog):
     self.client = client
 
   @commands.command()
-  async def randomtrivia(self, ctx):
+  async def trivia(self, ctx):
     session = aiohttp.ClientSession()
     response = await session.get("https://opentdb.com/api.php?amount=10")
     data = await response.json()

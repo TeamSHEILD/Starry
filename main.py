@@ -58,14 +58,13 @@ async def on_ready():
 	print("Bot Creator: Shadi#7894")
 	print(today)
 	print('-----------------------------')
-	await client.change_presence(status=discord.Status.online,activity=discord.Activity(type=discord.ActivityType.streaming, name=" star+help | DM"))
+	await client.change_presence(status=discord.Status.idle)
 
 @client.command()
 async def simpltime(ctx):
   embed = discord.Embed(title=day, color=0x10deb0)
   message = await ctx.send(embed=embed)
   await message.add_reaction('⌚')
-
 
 @client.command()
 @commands.has_permissions(administrator=True)
@@ -96,6 +95,41 @@ async def serverpop(ctx):
   embed.add_field(name='How many members are in this server? (bots included)',value=f'There are {ctx.guild.member_count} members (including bots) in this server')
   message = await ctx.send(embed=embed)
   await message.add_reaction('🏭')
+
+@client.command()
+async def guildinvite(ctx):
+  link = await ctx.channel.create_invite(max_age = 300)
+  await ctx.send(link)
+
+
+
+
+@client.command()
+async def wakeupstarry(ctx):
+  await client.change_presence(status=discord.Status.online)
+  await asyncio.sleep(10)
+  await client.change_presence(status=discord.Status.idle)
+
+@client.command()
+async def analyzeint(ctx, int1 : int, int2 : int):
+  if int1 > int2:
+    embed = discord.Embed(title = "For the range function to work, ``int1`` must be less than ``int2``.")
+    await ctx.send(embed = embed )
+  else:
+    A = int2 - int1
+    B = int2 + int1
+    C = int2 * int1
+    D = random.randint(int1, int2)
+    embed = discord.Embed(title = "The number's have been analzyed!", color = random.randint(0, 16777215))
+    embed.add_field(name = "When your numbers were added:", value = f"{int1} + {int2} = **{A}**",inline = False)
+    embed.add_field(name = "When your numbers were subtracted:", value = f"{int1} - {int2} = **{B}**",inline = False)
+    embed.add_field(name = "When your numbers were multiplied:", value = f"{int1} * {int2} = **{C}**",inline = False)
+    embed.add_field(name = "When your numbers were randomly ranged and picked:",value = f"{int1} to {int2}, randomly picked was **{D}**")
+    message = await ctx.send(embed=embed)
+    await message.add_reaction('➕')
+    await message.add_reaction('➖')
+    await message.add_reaction('✖')
+    await message.add_reaction('〽')
 
 @client.command()
 async def feedback(ctx, *, mssg=None):
@@ -357,6 +391,27 @@ async def identity(ctx, member: discord.Member):
   embed.add_field(name=f"Roles ({len(roles)})",value=" ".join([role.mention for role in roles]),inline=False)
   await ctx.send(embed=embed)
 
+@client.command()
+async def relations(ctx, member: discord.Member):
+  if member.bot == True:
+    await ctx.send("I can\'t see relationships with you and a bot!!")
+  else:
+    embed = discord.Embed(title = f"Your relationship with {member.mention}")
+    embed.add_field(name = "Relationships?", value = f'{member.relationship}')
+    embed.add_field(name = "System?", value = f'{member.system}')
+    embed.add_field(name = "Friends?", value = member.is_friend())
+    embed.add_field(name = "Blocked?", value = member.is_blocked())
+    embed.add_field(name = "Mutual Friends?", value = f'{member.mutual_friends()}')
+    await ctx.send(embed=embed)
+
+@client.command()
+async def apiprof(ctx, member: discord.Member):
+  if member.bot == True:
+    await ctx.send("I can\'t see relationships with you and a bot!!")
+  else:
+    embed = discord.Embed(title = f"Profile of {member.mention}")
+    embed.add_field(name = f'{member.profile()}', value = "...")
+    await ctx.send(embed=embed)
 
 @client.command()
 async def allinfo(ctx, member: discord.Member):
@@ -385,6 +440,16 @@ async def where(ctx):
   embed.add_field(name='Feeling lost, eh?',value=f'{ctx.author.name}, if you feel lost, dont be!\n\nYou are currently in {ctx.guild.name}!\n\nYou are in the channel called {ctx.channel.mention}!')
   message = await ctx.send(embed=embed)
   await message.add_reaction('🗺️')
+
+@client.command()
+async def starryinfo(ctx):
+  embed = discord.Embed(title = "Hey, look. It's me, Starry!", color = random.randint(0, 16777215))
+  embed.add_field(name = "My name:", value = f'{client.user.name}')
+  embed.add_field(name = "My ID:", value = f'{client.user.id}')
+  embed.add_field(name = "My Discriminator:", value = f'{client.user.discriminator}')
+  embed.add_field(name = "My Mention:", value = f'{client.user.mention}')
+  embed.add_field(name = "My Creation Date:", value = client.user.created_at.strftime("%a, %#d %B %Y, %I:%M %p UTC"))
+  await ctx.send(embed = embed)
 
 
 import time
@@ -475,16 +540,21 @@ async def mail(ctx,member: discord.Member,*,mssg,):
 @client.command()
 async def help(ctx):
   embed = discord.Embed(title = "Hello! And thanks for choosing Starry!", description = "Type in the command for a category you want, I will DM you with the command list for that specific category!", color=random.randint(0, 16777215))
-  embed.add_field(name = "Fun Commnands!", value = "``star+funcom``", inline = False)
-  embed.add_field(name = "Utility Commands!", value = "``star+utilitycom``", inline = False)
-  embed.add_field(name = "Moderation Commands!", value = "``star+modcom``", inline = False)
-  embed.add_field(name = "Invite Me/Owner Contact!", value = "``star+invown``", inline = False)
+  embed.add_field(name = "Fun Commnands!", value = "``star+funcom``")
+  embed.add_field(name = "Utility Commands!", value = "``star+utilitycom``")
+  embed.add_field(name = "Moderation Commands!", value = "``star+modcom``")
+  embed.add_field(name = "Extra Commands!", value = "``star+extracom``")
+  embed.add_field(name = "Invite Me/Owner Contact!", value = "``star+invown``")
+  embed.set_footer(text = "*Please be sure to \'allow direct messages from server members\', otherwise Starry cannot DM you the command lists!*")
   await ctx.send(embed=embed)
   
 @client.command()
 async def funcom(ctx):
   await ctx.author.create_dm()
   embed = discord.Embed(title = "For Fun Commands!",description = "You want to have fun?", color=random.randint(0, 16777215))
+  embed.add_field(name = "F = Respect", value = "``star+f <member>``")
+  embed.add_field(name = "Que Calor?", value = "``star+hotmeter <member>``")
+  embed.add_field(name = "Candy Slots", value = "``star+slots``")
   embed.add_field(name = "Parrot", value = "``star+parrot <message>``")
   embed.add_field(name = "Reverse", value = "``star+reverse <message>``")
   embed.add_field(name = "Human", value = "``star+human <message>``")
@@ -496,7 +566,7 @@ async def funcom(ctx):
   embed.add_field(name = "Cat", value = "``star+cat``")
   embed.add_field(name = "Dog", value = "``star+dog``")
   embed.add_field(name = "Bird", value = "``star+bird``")
-  embed.add_field(name = "Trivia", value = "``star+trivia``")
+  #embed.add_field(name = "Trivia", value = "``star+trivia``")
   embed.add_field(name = "Turtle!", value = "``star+turtle``")
   embed.add_field(name = "Aesthetics!", value = "``star+aesthetic``")
   embed.add_field(name = "Kawaii!", value = "``star+kawaii``")
@@ -508,22 +578,31 @@ async def funcom(ctx):
   embed.add_field(name = "Coinflip", value = "``star+flip``")
   await ctx.author.dm_channel.send(embed=embed)
 
+
 @client.command()
 async def utilitycom(ctx):
+  await ctx.author.create_dm()
   embed = discord.Embed(title = "Utility Commands!",description = "Let's Get to Work!", color=random.randint(0, 16777215))
   embed.add_field(name = "SimplTime", value = "``star+simpltime``")
   embed.add_field(name = "Server Pop.", value = "``star+serverpop``")
   embed.add_field(name = "Feedback", value = "``star+feedback <message>``")
   embed.add_field(name = "Ping Latency", value = "``star+ping``")
   embed.add_field(name = "Server Info", value = "``star+serverinfo``")
+  embed.add_field(name = "Bot Info", value = "``star+starryinfo``")
+  embed.add_field(name = "User Relationships", value = "``star+relations <member>``")
+  embed.add_field(name = "User Profile (with API)", value = "``star+apiprof <member>``")
   embed.add_field(name = "Identity", value = "``star+identity <member>``")
   embed.add_field(name = "All Info", value = "``star+allinfo <member>``")
+  embed.add_field(name = "Analyze two numbers", value = "``star+analyzeint <int1> <int2>``")
   embed.add_field(name = "Where Am I?", value = "``star+where``")
+  embed.add_field(name = "Change Nickame", value = "``star+changenickname <member> <newnick>``")
   embed.add_field(name = "Mail", value = "``star+mail <member> <message>``")
   await ctx.author.dm_channel.send(embed=embed)
 
+
 @client.command()
 async def modcom(ctx):
+  await ctx.author.create_dm()
   embed = discord.Embed(title = "Moderate!",description = "Have security!", color=random.randint(0, 16777215))
   embed.add_field(name = "Kick", value = "``star+kick <member> <reason>``")
   embed.add_field(name = "Ban", value = "``star+ban <member> <reason>``")
@@ -533,13 +612,27 @@ async def modcom(ctx):
   embed.add_field(name = "*Channel Muting/Unmuting",value = "The Channel Mute command **must** be run in the channel in which you want to mute the member. This muting only occurs in that channel and doesn't get taken off automatically", inline = False)
   await ctx.author.dm_channel.send(embed=embed)  
 
+
 @client.command()
 async def invown(ctx):
+  await ctx.author.create_dm()
   embed = discord.Embed(title = "Invite Link Me!", description = "And contact creator!", color=random.randint(0, 16777215))
   embed.add_field(name = "Admin Perms:", value = "https://discord.com/api/oauth2/authorize?client_id=742030317451214888&permissions=8&scope=bot", inline = False)
   embed.add_field(name = "No Admin Perms:", value = "https://discord.com/api/oauth2/authorize?client_id=742030317451214888&permissions=2080767094&scope=bot", inline = False)
   embed.add_field(name = "Creator:", value = "<@717822288375971900>", inline = False)
   await ctx.author.dm_channel.send(embed=embed)
+
+@client.command()
+async def extracom(ctx):
+  await ctx.author.create_dm()
+  embed = discord.Embed(title = "Here are some Extra Commands!",description = "Small and Beta!", color=random.randint(0, 16777215))
+  embed.add_field(name = "Addition", value = "``star+addnum <n1> <n2>``")
+  embed.add_field(name = "Subtraction", value = "``star+subnum <n1> <n2>``")
+  embed.add_field(name = "Multiplication", value = "``star+multnum <n1> <n2>``")
+  embed.add_field(name = "Division", value = "``star+divnum <n1> <n2>``")
+  embed.add_field(name = "Wakey wakey Starry", value = "``star+wakeupstarry``")
+  await ctx.author.dm_channel.send(embed=embed) 
+
 
 
 #-----------------------------------------------
